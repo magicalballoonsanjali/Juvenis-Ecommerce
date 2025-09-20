@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
     "@clerk/nextjs": "^6.32.0",
     "lucide-react": "^0.544.0",
     "mongoose": "^8.18.1",
