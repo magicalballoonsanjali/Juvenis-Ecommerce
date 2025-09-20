@@ -1,11 +1,13 @@
 'use client'
-import { productsDummyData, userDummyData } from "@/assets/assets";
+import { productsDummyData, userDummyData } from "@/assets/juvenis-assets";
+import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const AppContext = createContext();
 
 export const useAppContext = () => {
+    
     return useContext(AppContext)
 }
 
@@ -13,6 +15,8 @@ export const AppContextProvider = (props) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY
     const router = useRouter()
+
+    const {user}= useUser()//to get user weather it is loged in or not
 
     const [products, setProducts] = useState([])
     const [userData, setUserData] = useState(false)
@@ -82,13 +86,14 @@ export const AppContextProvider = (props) => {
     }, [])
 
     const value = {
+        user,
         currency, router,
         isSeller, setIsSeller,
         userData, fetchUserData,
         products, fetchProductData,
         cartItems, setCartItems,
         addToCart, updateCartQuantity,
-        getCartCount, getCartAmount
+        getCartCount, getCartAmount,user
     }
 
     return (
