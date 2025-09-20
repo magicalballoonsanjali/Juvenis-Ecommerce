@@ -1,11 +1,12 @@
 'use client';
 import React, { useEffect, useState } from "react";
-import { assets, orderDummyData } from "@/assets/assets";
+import { assets, orderDummyData } from "@/assets/juvenis-assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Loading from "@/components/Loading";
+import { Box } from "lucide-react";
 
 const MyOrders = () => {
 
@@ -35,9 +36,10 @@ const MyOrders = () => {
                                 <div className="flex-1 flex gap-5 max-w-80">
                                     <Image
                                         className="max-w-16 max-h-16 object-cover"
-                                        src={assets.box_icon}
+                                        src={assets.parcel_icon}
                                         alt="box_icon"
                                     />
+                                  
                                     <p className="flex flex-col gap-3">
                                         <span className="font-medium text-base">
                                             {order.items.map((item) => item.product.name + ` x ${item.quantity}`).join(", ")}

@@ -20,39 +20,40 @@ const AddAddress = () => {
         e.preventDefault();
 
     }
-
+// px-6 md:px-16 lg:px-32 py-16 flex flex-col md:flex-row justify-between
     return (
         <>
             <Navbar />
-            <div className="px-6 md:px-16 lg:px-32 py-16 flex flex-col md:flex-row justify-between">
-                <form onSubmit={onSubmitHandler} className="w-full">
+            <div className="flex md:px-40 p-5 justify-center items-center md:flex-row flex-col-reverse gap-4">
+                <div className="md:w-1/2  flex justify-center items-center">
+                <form onSubmit={onSubmitHandler} className="">
                     <p className="text-2xl md:text-3xl text-gray-500">
-                        Add Shipping <span className="font-semibold text-orange-600">Address</span>
+                        Add Shipping <span className="font-semibold text-[#009bf1]">Address</span>
                     </p>
                     <div className="space-y-3 max-w-sm mt-10">
                         <input
-                            className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
+                            className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
                             type="text"
                             placeholder="Full name"
                             onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
                             value={address.fullName}
                         />
                         <input
-                            className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
+                            className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
                             type="text"
                             placeholder="Phone number"
                             onChange={(e) => setAddress({ ...address, phoneNumber: e.target.value })}
                             value={address.phoneNumber}
                         />
                         <input
-                            className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
+                            className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
                             type="text"
                             placeholder="Pin code"
                             onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
                             value={address.pincode}
                         />
                         <textarea
-                            className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500 resize-none"
+                            className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500 resize-none"
                             type="text"
                             rows={4}
                             placeholder="Address (Area and Street)"
@@ -61,14 +62,14 @@ const AddAddress = () => {
                         ></textarea>
                         <div className="flex space-x-3">
                             <input
-                                className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
+                                className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
                                 type="text"
                                 placeholder="City/District/Town"
                                 onChange={(e) => setAddress({ ...address, city: e.target.value })}
                                 value={address.city}
                             />
                             <input
-                                className="px-2 py-2.5 focus:border-orange-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
+                                className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
                                 type="text"
                                 placeholder="State"
                                 onChange={(e) => setAddress({ ...address, state: e.target.value })}
@@ -76,15 +77,22 @@ const AddAddress = () => {
                             />
                         </div>
                     </div>
-                    <button type="submit" className="max-w-sm w-full mt-6 bg-orange-600 text-white py-3 hover:bg-orange-700 uppercase">
+                    <button type="submit" className="max-w-sm w-full mt-6 bg-[#009bf1] text-white py-3 hover:bg-[#33769b] uppercase">
                         Save address
                     </button>
                 </form>
-                <Image
-                    className="md:mr-16 mt-16 md:mt-0"
-                    src={assets.my_location_image}
+                  </div>
+
+                  <div className="md:w-1/2 bg-green-800">
+                     <Image
+                    className="w-full object-cover rounded"
+                    src="/address.jpg"
                     alt="my_location_image"
+                    width={500}
+                    height={600}
                 />
+                
+                  </div>
             </div>
             <Footer />
         </>
