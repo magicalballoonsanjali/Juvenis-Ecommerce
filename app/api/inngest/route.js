@@ -1,10 +1,20 @@
 import { serve } from "inngest/next";
-import { inngest, syncUserCreation, syncUserDeletion, syncUserUpdation } from "@/config/inngest";
+import {
+  inngest,
+  syncUserCreation,
+  syncUserDeletion,
+  syncUserUpdation,
+} from "@/config/inngest";
+
+export const dynamic = 'force-dynamic';
 
 
-export const { GET, POST, PUT } = serve({
+// No PUT here – only GET and POST:
+export const { GET, POST } = serve({
   client: inngest,
   functions: [
-    syncUserCreation,syncUserUpdation,syncUserDeletion
+    syncUserCreation,
+    syncUserUpdation,
+    syncUserDeletion,
   ],
 });
