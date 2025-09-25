@@ -40,10 +40,12 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(cartItems).map((itemId) => {
+                {cartItems && Object.keys(cartItems).length > 0 && Object.keys(cartItems).map((itemId) => {
                   const product = products.find(product => product._id === itemId);
 
-                  if (!product || cartItems[itemId] <= 0) return null;
+            // change 
+ if (!product || !Array.isArray(product.image) || cartItems[itemId] <= 0) return null;
+
 
                   return (
                     <tr key={itemId}>
@@ -51,8 +53,8 @@ const Cart = () => {
                         <div>
                           <div className="rounded-lg overflow-hidden bg-gray-500/10 p-2">
                             <Image
-                              src={product.image[0]}
-                              alt={product.name}
+                              src={product.image?.[0] ?? '/fallback.jpg'}
+                              alt={product.name ?? 'product'}
                               className="w-16 h-auto object-cover mix-blend-multiply"
                               width={1280}
                               height={720}
@@ -99,7 +101,9 @@ const Cart = () => {
                     </tr>
                   );
                 })}
+
               </tbody>
+
             </table>
           </div>
           <button onClick={()=> router.push('/all-products')} className="group flex items-center mt-6 gap-2 text-[#009bf1]">
