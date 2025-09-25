@@ -10,9 +10,7 @@ const userSchema = new mongoose.Schema({
     
 },{minimize:false});
 
-if (mongoose.models.user) {
-  delete mongoose.models.user;
-}
+
 
 const User = mongoose.models.user || mongoose.model("user",userSchema);
 

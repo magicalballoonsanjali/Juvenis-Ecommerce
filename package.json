@@ -11,6 +11,8 @@
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/nextjs": "^6.32.0",
+    "axios": "^1.12.2",
+    "cloudinary": "^2.7.0",
     "inngest": "^3.41.0",
     "lucide-react": "^0.544.0",
     "mongoose": "^8.18.1",

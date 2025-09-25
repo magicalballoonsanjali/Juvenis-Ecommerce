@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { assets } from "@/assets/assets";
+import { assets } from "@/assets/juvenis-assets";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -49,7 +49,9 @@ const Product = () => {
             {/* main image */}
               <Image
                 src={mainImage || productData.image[0]}
-                alt="alt"
+                alt="alt" width={400}
+                    height={400}
+
                 className="w-full h-auto object-cover mix-blend-multiply"
              
               />
@@ -65,6 +67,8 @@ const Product = () => {
                   <Image
                     src={image}
                     alt="alt"
+                   width={200}
+                   height={200}
                     className="w-full h-auto object-cover mix-blend-multiply"
                    
                   />
