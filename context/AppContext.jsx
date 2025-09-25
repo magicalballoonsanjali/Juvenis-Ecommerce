@@ -1,8 +1,6 @@
 'use client'
 import { productsDummyData, userDummyData } from "@/assets/juvenis-assets";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { err } from "inngest/types";
-import { set } from "mongoose";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -19,7 +17,7 @@ export const AppContextProvider = (props) => {
     const currency = process.env.NEXT_PUBLIC_CURRENCY
     const router = useRouter()
 
-    const {user}= useUser()//to get user weather it is loged in or not
+    const {user}= useUser()//to get user weather it is logged in or not
 
     const {getToken} = useAuth()
 
@@ -56,7 +54,7 @@ export const AppContextProvider = (props) => {
 
         if(data.success){
             setUserData(data.user)
-            setCartItems(data.user.cartItems || {})
+           setCartItems(data.user?.cartItems || {}) 
         }else{
             toast.error(data.message)
         }
@@ -129,7 +127,7 @@ export const AppContextProvider = (props) => {
         let totalAmount = 0;
         for (const items in cartItems) {
             let itemInfo = products.find((product) => product._id === items);
-            if (cartItems[items] > 0) {
+            if (itemInfo && cartItems[items] > 0) {
                 totalAmount += itemInfo.offerPrice * cartItems[items];
             }
         }

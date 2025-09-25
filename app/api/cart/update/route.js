@@ -20,6 +20,7 @@ export async function POST(request) {
 
     }
     catch(error){
+        console.log(error.message)
         NextResponse.json({success:false,message:error.message})
     }
 }

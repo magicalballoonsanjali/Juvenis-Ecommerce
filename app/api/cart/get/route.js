@@ -15,6 +15,7 @@ export async function GET(request){
         return NextResponse.json({success:true,cartItems})
 
     }catch(error){
+        console.log(error.message)
         return NextResponse.json({success:false,messsage:error.message});
     }
 }

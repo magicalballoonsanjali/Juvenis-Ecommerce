@@ -40,25 +40,23 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-                {cartItems && Object.keys(cartItems).length > 0 && Object.keys(cartItems).map((itemId) => {
+                {Object.keys(cartItems).map((itemId) => {
                   const product = products.find(product => product._id === itemId);
 
-            // change 
- if (!product || !Array.isArray(product.image) || cartItems[itemId] <= 0) return null;
-
+                  if (!product || cartItems[itemId] <= 0) return null;
 
                   return (
                     <tr key={itemId}>
                       <td className="flex items-center gap-4 py-4 md:px-4 px-1">
                         <div>
                           <div className="rounded-lg overflow-hidden bg-gray-500/10 p-2">
-                            <Image
-                              src={product.image?.[0] ?? '/fallback.jpg'}
-                              alt={product.name ?? 'product'}
+                            {/* <Image
+                             src={Array.isArray(product.image) && product.image.length > 0 ? product.image[0] : '/default-image.png'}
+                              alt={product.name}
                               className="w-16 h-auto object-cover mix-blend-multiply"
                               width={1280}
                               height={720}
-                            />
+                            /> */}
                           </div>
                           <button
                             className="md:hidden text-xs text-[#009bf1] mt-1"
@@ -101,9 +99,7 @@ const Cart = () => {
                     </tr>
                   );
                 })}
-
               </tbody>
-
             </table>
           </div>
           <button onClick={()=> router.push('/all-products')} className="group flex items-center mt-6 gap-2 text-[#009bf1]">
