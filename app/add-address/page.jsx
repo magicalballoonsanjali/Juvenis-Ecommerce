@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Suspense } from "react";
+
 const AddAddress = () => {
 
     const {getToken,router}=useAppContext()
@@ -45,6 +47,7 @@ const AddAddress = () => {
 // px-6 md:px-16 lg:px-32 py-16 flex flex-col md:flex-row justify-between
     return (
         <>
+        <Suspense fallback={<div>Loading...</div>}>
             <Navbar />
             <div className="flex md:px-40 p-5 justify-center items-center md:flex-row flex-col-reverse gap-4">
                 <div className="md:w-1/2  flex justify-center items-center">
@@ -117,6 +120,7 @@ const AddAddress = () => {
                   </div>
             </div>
             <Footer />
+        </Suspense>
         </>
     );
 };
