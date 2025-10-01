@@ -33,6 +33,7 @@ const Navbar = () => {
 
 
   return (
+      <Suspense fallback={<div>Loading...</div>}>
     <nav className="relative flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
       <Image
         className=" hidden md:block cursor-pointer"
@@ -197,6 +198,7 @@ const Navbar = () => {
       </div>
       
     </nav>
+     </Suspense>
   );
 };
 
