@@ -96,7 +96,7 @@ const AllProducts = () => {
 
   return (
     <>
-
+ <Suspense fallback={<div>Loading...</div>}>
       <div className="flex flex-col md:flex-row items-start px-6 md:px-16 lg:px-32 pt-10 gap-10 ">
         {/* Left: Category Filter Sidebar */}
 
@@ -193,6 +193,7 @@ const AllProducts = () => {
         </div>
       </div>
       <Footer />
+      </Suspense>
     </>
   );
 };
