@@ -2,7 +2,7 @@ import Aboutus from "@/components/Aboutus";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-import React from "react";
+import React, { Suspense } from 'react'
 
 const page = () => {
   return (
