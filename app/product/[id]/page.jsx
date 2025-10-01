@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { assets } from "@/assets/juvenis-assets";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
@@ -41,7 +41,9 @@ const Product = () => {
 
   return productData ? (
     <>
-     <Navbar/>
+       <Suspense fallback={<div>Loading Navbar...</div>}>
+  <Navbar />
+</Suspense>
       <div className="px-6 md:px-16 lg:px-32 pt-14 space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div className="px-5 lg:px-16 xl:px-20">

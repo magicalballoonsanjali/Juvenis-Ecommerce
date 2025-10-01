@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { assets, orderDummyData } from "@/assets/juvenis-assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
@@ -44,7 +44,9 @@ const MyOrders = () => {
 
     return (
         <>
-        <Navbar/>
+          <Suspense fallback={<div>Loading Navbar...</div>}>
+  <Navbar />
+</Suspense>
             <div className="flex flex-col justify-between px-6 md:px-16 lg:px-32 py-6 min-h-screen">
                 <div className="space-y-5">
                     <h2 className="text-lg font-medium mt-6">My Orders</h2>
