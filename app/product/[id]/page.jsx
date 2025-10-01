@@ -147,7 +147,7 @@ const Product = () => {
               </button>
               <button
                 onClick={() => {
-                  addToCart(productData._id);
+                  addToCart(productData._id, false);
                   router.push("/cart");
                 }}
                 className="w-full py-3.5 bg-[#009bf1] text-white hover:bg-[#34a2dd] transition"

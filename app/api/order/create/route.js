@@ -15,21 +15,43 @@ export async function POST(request){
         }
 
         // calculate amount using items
-        const amount = await items.reduce(async (acc, item)=>{
-            const product = await Product.findById(item.product)
-            return await acc + product.offerPrice * item.quantity;
-        },0)
+        // const amount = await items.reduce(async (acc, item)=>{
+        //     const product = await Product.findById(item.product)
+        //     return await acc + product.offerPrice * item.quantity;
+        // },0)
 
-        await inngest.send({
-            name:'order/created',
-            data:{
-                userId,
-                address,
-                items,
-                amount:amount + Math.floor(amount*0.02),
-                date:Date.now()
-            }
-        })
+        // await inngest.send({
+        //     name:'order/created',
+        //     data:{
+        //         userId,
+        //         address,
+        //         items,
+        //         amount:amount + Math.floor(amount*0.02),
+        //         date:Date.now()
+        //     }
+        // })
+// neww 
+let amount = 0;
+for (const item of items) {
+  const product = await Product.findById(item.product);
+  if (!product) throw new Error(`Product not found: ${item.product}`);
+  amount += product.offerPrice * item.quantity;
+}
+
+const totalAmount = amount + Math.floor(amount * 0.02);
+
+await inngest.send({
+  name: 'order/created',
+  data: {
+    userId,
+    address,
+    items,
+    amount: totalAmount,
+    date: Date.now(),
+  },
+});
+
+
 
 // clear user cart
 

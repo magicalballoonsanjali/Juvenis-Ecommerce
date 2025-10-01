@@ -4,9 +4,13 @@ import ProductCard from '@/components/ProductCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAppContext } from '@/context/AppContext';
+import { useSearchParams } from 'next/navigation';
+
 
 const AllProducts = () => {
   const { products } = useAppContext();
+  const searchParams = useSearchParams();
+  const searchTerm = (searchParams.get('search') || '').toLowerCase();
 
   // filters
   const [showFilter, setShowFilter] = useState(false);
@@ -67,6 +71,28 @@ const AllProducts = () => {
   useEffect(() => {
     sortProducts();
   }, [sortType]);
+
+
+    useEffect(() => {
+    // start from all products
+    let copy = products.slice();
+
+    // if a search term, filter by name or category
+    if (searchTerm) {
+      copy = copy.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchTerm) ||
+          item.category.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    // apply your category filter logic here if needed
+    // …
+
+    setFilteredProducts(copy);
+  }, [products, searchTerm]);
+
+
 
   return (
     <>
