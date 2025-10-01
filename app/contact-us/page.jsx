@@ -1,7 +1,7 @@
 "use client"
 import toast from 'react-hot-toast';
 import Navbar from '@/components/Navbar'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Clock4, LocationEdit, Mail, MapPin, Phone } from "lucide-react";
 import Footer from '@/components/Footer';
 
@@ -43,7 +43,9 @@ const page = () => {
 
   return (
     <div>
-      <Navbar/>
+       <Suspense fallback={<div>Loading Navbar...</div>}>
+  <Navbar />
+</Suspense>
       {/* Contact Section */}
       <div className="bg-white py-5 px-2 lg:mx-40 lg:mt-15 flex justify-center items-center shadow-2xl ">
         {/* Main container with flex-row on large screens */}
