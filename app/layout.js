@@ -4,8 +4,10 @@ import { AppContextProvider } from "@/context/AppContext";
 import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
+import { Suspense } from "react";
 
 const outfit = Outfit({ subsets: ['latin'], weight: ["300", "400", "500"] })
+
 
 export const metadata = {
   title: "E-Commerce - Juvenis",
@@ -14,17 +16,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
     
-      <html lang="en">
-        <body className={`${outfit.className} antialiased text-gray-700`} >
+     <html lang="en">
+      <body className={`${outfit.className} antialiased text-gray-700`}>
+        <ClerkProvider>
           <Toaster />
           <AppContextProvider>
-            <Navbar/>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Navbar />
+            </Suspense>
+
             {children}
           </AppContextProvider>
-        </body>
-      </html>
-      </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
