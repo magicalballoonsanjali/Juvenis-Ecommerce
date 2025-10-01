@@ -26,6 +26,10 @@ export const AppContextProvider = (props) => {
     const [isSeller, setIsSeller] = useState(false)
     const [cartItems, setCartItems] = useState({})
 
+   const [wishlist, setWishlist] = useState([]);
+
+ 
+
     const fetchProductData = async () => {
        try{
         const {data} = await axios.get('/api/product/list')
@@ -65,22 +69,28 @@ export const AppContextProvider = (props) => {
         }
     }
 
-    const addToCart = async (itemId) => {
+    const addToCart = async (itemId,forceAdd=true) => {
 
         let cartData = structuredClone(cartItems);
+
         if (cartData[itemId]) {
-            cartData[itemId] += 1;
+            if(forceAdd){
+
+                cartData[itemId] += 1;
+             
+            }
         }
         else {
             cartData[itemId] = 1;
         }
         setCartItems(cartData);
-        
+        toast.success("Item added to cart ");
+
         if(user){
             try{
                 const token = await getToken()
                 await axios.post('/api/cart/update',{cartData},{headers:{Authorization:`Bearer ${token}`}})
-                toast.success("Item added to cart ");
+                
             }
             catch(error){
                 toast.error(error.message)
@@ -88,6 +98,12 @@ export const AppContextProvider = (props) => {
         }
 
     }
+
+
+
+
+
+
 
     const updateCartQuantity = async (itemId, quantity) => {
 
@@ -131,8 +147,63 @@ export const AppContextProvider = (props) => {
                 totalAmount += itemInfo.offerPrice * cartItems[items];
             }
         }
-        return Math.floor(totalAmount * 100) / 100;
+        return parseFloat(totalAmount.toFixed(2));
     }
+
+
+//     const  toggleWishlist = (productId)=>{
+//         let newWishlist = [...wishlist];
+//         if(newWishlist.includes(productId)){
+//             newWishlist=newWishlist.filter(id=>id!==productId);
+//             toast.success('Removed from wishlist');
+//         }else{
+//             newWishlist.push(productId);
+//             toast.success("Added to wishlist")
+//         }
+//         setWishlist(newWishlist)
+//         // Optionally sync with backend
+//   if (user) {
+//     getToken().then(token => {
+//       axios.post('/api/user/wishlist', { wishlist: newWishlist }, {
+//         headers: { Authorization: `Bearer ${token}` }
+//       }).catch(err => toast.error(err.message));
+//     });
+//   }
+//     }
+
+const toggleWishlist = async (productId) => {
+  try {
+    const token = await getToken();
+    const { data } = await axios.post(
+      "/api/user/wishlist",
+      { productId },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    setWishlist(data.wishlist);
+    toast.success("Wishlist updated");
+  } catch (err) {
+    toast.error(err.response?.data?.message || err.message);
+  }
+};
+
+
+const fetchWishlist = async () => {
+  if (!user) return;
+  try {
+    const token = await getToken();
+    const res = await axios.get("/api/user/wishlist", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (res.data.success) setWishlist(res.data.wishlist);
+  } catch (err) { console.error(err); }
+};
+
+
+useEffect(() => {
+  if (user) fetchWishlist();
+  else setWishlist([]);
+}, [user]);
+
 
     useEffect(() => {
         fetchProductData()
@@ -153,7 +224,7 @@ export const AppContextProvider = (props) => {
         products, fetchProductData,
         cartItems, setCartItems,
         addToCart, updateCartQuantity,
-        getCartCount, getCartAmount,user
+        getCartCount, getCartAmount,user, toggleWishlist,wishlist
     }
 
     return (

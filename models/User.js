@@ -7,12 +7,13 @@ const userSchema = new mongoose.Schema({
     email:{type:String,required:true,unique:true},
     imageURL:{ type:String, required: false, default: ""},
     cartItems:{type:Object,default:{}},
+
+     wishlist: [{ type: String }],
     
 },{minimize:false});
 
 
-
-const User = mongoose.models.user || mongoose.model("user",userSchema);
+const User = mongoose.models.User || mongoose.model("User",userSchema);
 
 
 export default User

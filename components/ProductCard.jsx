@@ -2,10 +2,11 @@ import React from 'react'
 import { assets } from '@/assets/assets'
 import Image from 'next/image';
 import { useAppContext } from '@/context/AppContext';
-
+import { Heart } from 'lucide-react';
 const ProductCard = ({ product }) => {
 
-    const { currency, router } = useAppContext()
+    const { currency, router , toggleWishlist, wishlist} = useAppContext()
+const isWish = wishlist.includes(product._id);
 
     return (
         <div
@@ -20,12 +21,20 @@ const ProductCard = ({ product }) => {
                     width={800}
                     height={800}
                 />
-                <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md">
-                    <Image
+                <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md" 
+                onClick={(e)=>{ e.stopPropagation(); 
+                 toggleWishlist(product._id);}}>
+                    {/* <Image
                         className="h-3 w-3"
                         src={assets.heart_icon}
                         alt="heart_icon"
-                    />
+                    /> */}
+
+                     <Heart size={15}
+    className={`h-5 w-5 ${
+      wishlist.includes(product._id) ? "fill-red-500 text-red-500" : "text-gray-400"
+    }`}
+  />
                 </button>
             </div>
 
