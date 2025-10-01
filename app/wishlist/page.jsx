@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { useAppContext } from "@/context/AppContext";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
@@ -10,7 +10,9 @@ export default function WishlistPage() {
 
   return (
     <>
-    <Navbar/>
+      <Suspense fallback={<div>Loading Navbar...</div>}>
+  <Navbar />
+</Suspense>
     <div className="px-6 md:px-16 lg:px-32 py-8">
       <h1 className="text-2xl font-semibold mb-6">My Wishlist</h1>
       {items.length === 0 ? (
