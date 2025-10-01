@@ -43,7 +43,7 @@ const page = () => {
 
   return (
     <div>
-    <Navbar/>
+      <Navbar/>
       {/* Contact Section */}
       <div className="bg-white py-5 px-2 lg:mx-40 lg:mt-15 flex justify-center items-center shadow-2xl ">
         {/* Main container with flex-row on large screens */}

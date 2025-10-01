@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
           <Toaster />
           <AppContextProvider>
             <Suspense fallback={<div>Loading...</div>}>
-              <Navbar />
+         
             </Suspense>
 
             {children}
