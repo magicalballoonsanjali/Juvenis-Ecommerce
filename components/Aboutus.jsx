@@ -1,10 +1,12 @@
 'use client';
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 import React from 'react'
 
 const Aboutus = () => {
   return (
     <div>
-      
+      <Navbar/>
        <div className='flex flex-col-reverse md:flex-row justify-center items-center p-8 md:px-20 gap-2 '>
         <div className='md:w-1/2 flex flex-col gap-3 '>
         <h1 className='text-4xl py-4'>About Us</h1>
@@ -19,7 +21,7 @@ const Aboutus = () => {
                         </div>
         </div>
     </div>
-
+    <Footer/>
     </div>
     
   )
