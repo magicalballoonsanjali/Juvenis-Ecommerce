@@ -7,6 +7,7 @@ import { useAppContext } from "@/context/AppContext";
 import { assets, CartIcon, BagIcon, BoxIcon } from "@/assets/juvenis-assets";
 import { Heart, HomeIcon, Menu, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
