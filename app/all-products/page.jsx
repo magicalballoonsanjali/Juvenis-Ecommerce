@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAppContext } from '@/context/AppContext';
 import { useSearchParams } from 'next/navigation';
-
+import { Suspense } from "react";
 
 const AllProducts = () => {
   const { products } = useAppContext();
