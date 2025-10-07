@@ -37,6 +37,8 @@ export async function POST(request){
 
         const files = formData.getAll('images');
 
+        const stock=formData.get('quantity')
+
         if(!files || files.length === 0){
             return NextResponse.json({success:false,message:'no files uploaded'})
         }
@@ -71,7 +73,8 @@ export async function POST(request){
             price:Number(price),
             offerPrice:Number(offerPrice),
             image,
-            date:Date.now()
+            date:Date.now(),
+           stock:Number(stock)
 
         })
     

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
@@ -14,10 +14,35 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [available, setAvailable] = useState(products.available);
+
+  const toggleAvailability = async () => {
+    const newStatus = !available;
+    try {
+      const token = await getToken();
+
+      const { data } = await axios.patch(
+        "/api/product/",
+        { productId: products._id, available: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (data.success) {
+        setAvailable(newStatus);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
   const fetchSellerProduct = async () => {
     try {
       const token = await getToken();
-      const { data } = await axios.get('/api/product/seller-list', { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get("/api/product/seller-list", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (data.success) {
         setProducts(data.products);
@@ -28,7 +53,7 @@ const ProductList = () => {
     } catch (error) {
       toast.error(error.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (user) {
@@ -48,10 +73,20 @@ const ProductList = () => {
           <table className="table-fixed w-full overflow-hidden">
             <thead className="text-gray-900 text-sm text-left">
               <tr>
-                <th className="w-2/3 md:w-2/5 px-4 py-3 font-medium truncate">Product</th>
-                <th className="px-4 py-3 font-medium truncate max-sm:hidden">Category</th>
+                <th className="w-2/3 md:w-2/5 px-4 py-3 font-medium truncate">
+                  Product
+                </th>
+                <th className="px-4 py-3 font-medium truncate max-sm:hidden">
+                  Category
+                </th>
                 <th className="px-4 py-3 font-medium truncate">Price</th>
-                <th className="px-4 py-3 font-medium truncate max-sm:hidden">Action</th>
+                <th className="px-4 py-3 font-medium truncate ">Offer Price</th>
+                <th className="px-4 py-3 font-medium truncate max-sm:hidden text-center">
+                  Stock
+                </th>
+                <th className="px-4 py-3 font-medium truncate max-sm:hidden">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody className="text-sm text-gray-500">
@@ -69,9 +104,24 @@ const ProductList = () => {
                     </div>
                     <span className="truncate w-full">{product.name}</span>
                   </td>
-                  <td className="px-4 py-3 max-sm:hidden">{product.category}</td>
-                  <td className="px-4 py-3">${product.offerPrice}</td>
                   <td className="px-4 py-3 max-sm:hidden">
+                    {product.category}
+                  </td>
+                  <td className="px-4 py-3">${product.price}</td>
+                  <td className="px-4 py-3">${product.offerPrice}</td>
+                  <td className="px-3 py-3 max-sm:hidden">
+                    {product.stock <= 0 ? (
+                      <span className="text-red-600 font-bold">
+                        Out of Stock
+                      </span>
+                    ) : (
+                      <span className="text-green-600 font-bold">
+                        Available
+                      </span>
+                    )}
+                  </td>
+
+                  <td>
                     <button
                       onClick={() => router.push(`/product/${product._id}`)}
                       className="flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-[#1893bf] text-white rounded-md"
@@ -91,34 +141,55 @@ const ProductList = () => {
         </div>
 
         {/* Mobile Card View */}
-        <div className="sm:hidden flex flex-col gap-4">
-          {products.map((product, index) => (
-            <div key={index} className="border border-gray-300 rounded-md p-4 flex flex-col gap-2 bg-white">
-              <div className="flex items-center gap-3">
-                <div className="bg-gray-200 rounded p-2">
-                  <Image
-                    src={product.image[0]}
-                    alt={product.name}
-                    className="w-16 h-16 object-cover rounded"
-                    width={1280}
-                    height={720}
-                  />
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium truncate">{product.name}</p>
-                  <p className="text-sm text-gray-500">{product.category}</p>
-                </div>
-                <p className="font-semibold">${product.offerPrice}</p>
-              </div>
-              <button
-                onClick={() => router.push(`/product/${product._id}`)}
-                className="w-full mt-2 py-2 bg-[#1893bf] text-white rounded-md"
-              >
-                Visit Product
-              </button>
-            </div>
-          ))}
+   {/* Mobile Card View */}
+<div className="sm:hidden flex flex-col gap-4">
+  {products.map((product, index) => (
+    <div 
+      key={index} 
+      className="border border-gray-200 rounded-xl p-4 flex flex-col gap-3 bg-white shadow-md"
+    >
+      {/* Top Section: Image + Name + Price */}
+      <div className="flex items-center gap-4">
+        <div className="bg-gray-100 rounded-lg p-2 flex-shrink-0">
+          <Image
+            src={product.image[0]}
+            alt={product.name}
+            className="w-20 h-20 object-cover rounded-md"
+            width={320}
+            height={320}
+          />
         </div>
+        <div className="flex-1">
+          <p className="font-semibold text-base truncate">{product.name}</p>
+          <p className="text-sm text-gray-500">{product.category}</p>
+          <p className="font-bold text-[#1893bf] text-lg mt-1">
+            ${product.offerPrice}
+            <span className="text-gray-400 text-sm line-through ml-2">
+              ${product.price}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      {/* Stock & Status */}
+      <div className="flex items-center justify-between">
+        {product.stock <= 0 ? (
+          <span className="text-red-600 font-bold">Out of Stock</span>
+        ) : (
+          <span className="text-green-600 font-semibold">In Stock</span>
+        )}
+
+        <button
+          onClick={() => router.push(`/product/${product._id}`)}
+          className="px-4 py-2 rounded-md bg-[#1893bf] text-white font-medium hover:bg-[#127299] transition"
+        >
+          View Product
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
       </div>
 
       <Footer />

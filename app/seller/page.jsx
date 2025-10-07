@@ -17,6 +17,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState('Skin Care');
   const [price, setPrice] = useState('');
   const [offerPrice, setOfferPrice] = useState('');
+  const [quantity,setQuantity]=useState()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +28,7 @@ const AddProduct = () => {
     formData.append('category',category)
     formData.append('price',price)
     formData.append('offerprice',offerPrice)
+    formData.append('quantity',quantity)
 
     for (let i=0; i<files.length; i++){
       formData.append('images',files[i])
@@ -46,6 +48,7 @@ const AddProduct = () => {
         setCategory('Skin Care'),
         setPrice('');
         setOfferPrice('');
+        setQuantity()
 
       }else{
         toast.error(data.message);
@@ -158,6 +161,20 @@ const AddProduct = () => {
               className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
               onChange={(e) => setOfferPrice(e.target.value)}
               value={offerPrice}
+              required
+            />
+          </div>
+          <div className="flex flex-col gap-1 w-32">
+            <label className="text-base font-medium" htmlFor="offer-price">
+              Quantity
+            </label>
+            <input
+              id="quantity"
+              type="number"
+              placeholder="0"
+              className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+              onChange={(e) => setQuantity(e.target.value)}
+              value={quantity}
               required
             />
           </div>

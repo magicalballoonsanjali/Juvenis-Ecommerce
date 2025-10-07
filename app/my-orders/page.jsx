@@ -84,6 +84,8 @@ const MyOrders = () => {
                                         <span>Method : COD</span>
                                         <span>Date : {new Date(order.date).toLocaleDateString()}</span>
                                         <span>Payment : Pending</span>
+                                        <span>Status: <span className={`font-medium ${order.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'}`}>{order.status}</span></span>
+
                                     </p>
                                 </div>
                             </div>

@@ -1,19 +1,19 @@
 'use client';
-
 import { SignUp, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function SignUpPage() {
-  const { isSignedIn } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
   const router = useRouter();
 
-  // Redirect signed-in users to homepage
   useEffect(() => {
-    if (isSignedIn) {
-      router.push('/'); // redirect to homepage
+    if (isLoaded && isSignedIn) {
+      router.replace('/');
     }
-  }, [isSignedIn]);
+  }, [isLoaded, isSignedIn]);
+
+  if (!isLoaded || isSignedIn) return null;
 
   return <SignUp path="/sign-up" routing="path" signInUrl="/sign-in" />;
 }
