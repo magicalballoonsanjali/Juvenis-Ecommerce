@@ -108,15 +108,16 @@ const Orders = () => {
                 </div>
                 <p className="font-medium my-auto">
                   {currency}
-                  {order.amount}
+                  {(order.amount / 100).toFixed(2)}
                 </p>
                 <div>
                   <p className="flex flex-col">
-                    <span>Method : COD</span>
+                    {/* <span>Method : COD</span> */}
                     <span>
                       Date : {new Date(order.date).toLocaleDateString()}
                     </span>
-                    <span>Payment : Pending</span>
+                    <span>Payment Status:</span>
+                    <span className={order.paymentStatus === "PAID" ? "text-green-600" : "text-red-600"}> {order.paymentStatus} </span>
                   </p>
                 </div>
                 <div className="flex md:justify-center items-center">
