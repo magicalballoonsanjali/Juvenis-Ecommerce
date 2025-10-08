@@ -11,8 +11,10 @@
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/nextjs": "^6.32.0",
+    "@stripe/stripe-js": "^8.0.0",
     "axios": "^1.12.2",
     "cloudinary": "^2.7.0",
+    "debounce": "^2.2.0",
     "inngest": "^3.41.0",
     "lucide-react": "^0.544.0",
     "mongoose": "^8.18.1",
@@ -22,7 +24,9 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",
     "regenerate-unicode-properties": "^10.2.2",
-    "styled-jsx": "^5.1.7"
+    "stripe": "^19.1.0",
+    "styled-jsx": "^5.1.7",
+    "use-debounce": "^10.0.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -25,6 +25,7 @@ export async function GET(request) {
     const orders = await Order.find({})
     .populate("items.product")
     .populate("address")
+    .populate("userId");
 
     return NextResponse.json({ success: true, orders });
   }

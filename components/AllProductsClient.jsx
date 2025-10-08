@@ -104,7 +104,7 @@ export default function AllProductsClient() {
 
       {/* Right: Products */}
       <div className="flex-1">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4 gap-5">
           <div>
             <p className="text-2xl font-medium">All Products</p>
             <div className="w-16 h-0.5 bg-[#009bf1] rounded-full"></div>
@@ -120,7 +120,7 @@ export default function AllProductsClient() {
           </select>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 mt-6 pb-14 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 mt-6 pb-14 w-full justify-items-center items-center">
           {filteredProducts.map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}

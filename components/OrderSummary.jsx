@@ -43,6 +43,7 @@ const OrderSummary = () => {
           return toast.error('Please select an address')
         }
         let cartItemsArray = Object.keys(cartItems).map((key)=>({product:key,quantity:cartItems[key]}))
+        
         cartItemsArray = cartItemsArray.filter(item=>item.quantity > 0)
 
         if(cartItemsArray.length === 0 ){
@@ -51,19 +52,26 @@ const OrderSummary = () => {
 
         const token = await getToken()
 
-        const {data}= await axios.post('/api/order/create',{
+        const {data}= await axios.post('/api/checkout',{
           address:selectedAddress._id,
           items:cartItemsArray,
         },{headers:{Authorization:`Bearer ${token}`}})
 
-        if(data.success){
-          toast.success(data.message)
-          setCartItems({})
-          router.push('/order-placed')
-        }
-        else{
-          toast.error(data.message)
-        }
+        // if(data.success){
+        //   toast.success(data.message)
+        //   setCartItems({})
+        //   router.push('/order-placed')
+        // }
+        // else{
+        //   toast.error(data.message)
+        // }
+
+        if (data.url) {
+      // Redirect user to Stripe checkout
+      window.location.href = data.url;
+    } else {
+      toast.error("Failed to initiate payment");
+    }
       }
       catch(error){
           toast.error(error.message)

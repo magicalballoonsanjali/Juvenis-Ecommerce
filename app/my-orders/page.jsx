@@ -78,15 +78,21 @@ const MyOrders = () => {
                                         <span>{order.address.phoneNumber}</span>
                                     </p>
                                 </div>
-                                <p className="font-medium my-auto">{currency}{order.amount.toFixed(2)}</p>
+                                <p className="font-medium my-auto">{currency}{(order.amount / 100).toFixed(2)}</p>
                                 <div>
                                     <p className="flex flex-col">
                                         <span>Method : COD</span>
                                         <span>Date : {new Date(order.date).toLocaleDateString()}</span>
-                                        <span>Payment : Pending</span>
                                         <span>Status: <span className={`font-medium ${order.status === 'Cancelled' ? 'text-red-600' : 'text-green-600'}`}>{order.status}</span></span>
 
                                     </p>
+                                </div>
+                                <div>
+                                   Payment Status: 
+  <span className={order.paymentStatus === "PAID" ? "text-green-600" : "text-red-600"}>
+    {order.paymentStatus}
+  </span>
+
                                 </div>
                             </div>
                         ))}

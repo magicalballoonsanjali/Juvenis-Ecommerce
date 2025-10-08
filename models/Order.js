@@ -11,6 +11,13 @@ const orderSchema = new mongoose.Schema({
     address:{type:mongoose.Schema.Types.ObjectId,ref:'Address',required:true},
     status:{type:String,required:true, default:'Order Placed'},
     date:{type:Number,required:true},
+     paymentStatus: {
+      type: String,
+      enum: ["PENDING", "PAID", "FAILED"],
+      default: "PENDING",
+    },
+    paymentIntentId: { type: String }, // Stripe Payment Intent ID
+    stripeSessionId: { type: String }, // Stripe Checkout Session ID
 })
 
 const Order = mongoose.models.Order || mongoose.model('Order',orderSchema)

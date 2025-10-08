@@ -179,8 +179,8 @@ const toggleWishlist = async (productId) => {
       { productId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    setWishlist(data.wishlist);
     toast.success("Wishlist updated");
+    setWishlist(data.wishlist);
   } catch (err) {
     toast.error(err.response?.data?.message || err.message);
   }
