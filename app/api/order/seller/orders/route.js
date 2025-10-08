@@ -64,7 +64,16 @@ export async function PATCH(req) {
   from: process.env.GMAIL_USER,
   to: user.email,
   subject: "Order status updated",
-  text: `Hello ${user.name}, your order status is now: ${status}`,
+ html: `<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <h2 style="color: #009bf1;">Hello ${user.name || "Customer"},</h2>
+      <p>Your order with ID <strong>${orderId}</strong> has been updated.</p>
+      <p><strong>Current Status:</strong> <span style="color:${
+        status === "Cancelled" ? "red" : status === "Dispatch" ? "orange" : "green"
+      };">${status}</span></p>
+
+      <p style="margin-top:20px;">Thank you for shopping with us!</p>
+      <p style="color: #888;">- The Juvenis Team</p>
+    </div>`,
 }).catch(err => console.error("Email error:", err));
 
     }
