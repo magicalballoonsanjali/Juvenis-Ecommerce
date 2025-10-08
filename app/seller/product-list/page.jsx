@@ -107,8 +107,8 @@ const ProductList = () => {
                   <td className="px-4 py-3 max-sm:hidden">
                     {product.category}
                   </td>
-                  <td className="px-4 py-3">${product.price}</td>
-                  <td className="px-4 py-3">${product.offerPrice}</td>
+                  <td className="px-4 py-3">Rs{product.price}</td>
+                  <td className="px-4 py-3">Rs{product.offerPrice}</td>
                   <td className="px-3 py-3 max-sm:hidden">
                     {product.stock <= 0 ? (
                       <span className="text-red-600 font-bold">
