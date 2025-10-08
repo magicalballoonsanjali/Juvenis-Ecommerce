@@ -173,6 +173,15 @@ export const AppContextProvider = (props) => {
 
 const toggleWishlist = async (productId) => {
   try {
+    let updatedList;
+
+    if (!wishlist.includes(productId)) {
+      updatedList = [...wishlist, productId];
+    } else {
+      updatedList = wishlist.filter((id) => id !== productId);
+    }
+
+    setWishlist(updatedList);
     const token = await getToken();
     const { data } = await axios.post(
       "/api/user/wishlist",
@@ -180,7 +189,6 @@ const toggleWishlist = async (productId) => {
       { headers: { Authorization: `Bearer ${token}` } }
     );
     toast.success("Wishlist updated");
-    setWishlist(data.wishlist);
   } catch (err) {
     toast.error(err.response?.data?.message || err.message);
   }
