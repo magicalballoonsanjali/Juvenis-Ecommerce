@@ -14,7 +14,9 @@ export default function Home() {
   return (
     <>
     <Topslider/>
+    <Suspense>
     <Navbar/>
+    </Suspense>
     <HeaderSlider/>
     <HomeProducts/>
     <FeaturedProduct/>

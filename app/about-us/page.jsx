@@ -6,11 +6,13 @@ import { Suspense } from "react";
 
 const page = () => {
   return (
+    <>
     <Suspense fallback={<div>Loading...</div>}>
       <Navbar/>
+   </Suspense>
       <Aboutus/>
       <Footer/>
-   </Suspense>
+      </>
   )
 }
 
