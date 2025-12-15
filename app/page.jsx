@@ -9,7 +9,7 @@ import Review from "../components/Review";
 import Footer from "../components/Footer";
 import Topslider from "../components/Topslider";
 import MiddlePart from "../components/MiddlePart";
-
+import { Suspense } from "react";
 export default function Home() {
   return (
     <>
