@@ -1,17 +1,20 @@
-import React from 'react'
-import AllProductsClient from '../../components/AllProductsClient'
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
 import { Suspense } from "react";
+import Navbar from "../../components/Navbar";
+import AllProductsClient from "../../components/AllProductsClient";
+import Footer from "../../components/Footer";
 
-const page = () => {
+export default function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-        <Navbar/>
-      <AllProductsClient/>
-      <Footer/>
-     </Suspense>
-  )
-}
+    <>
+      <Suspense fallback={<div>Loading Navbar...</div>}>
+        <Navbar />
+      </Suspense>
 
-export default page
+      <Suspense fallback={<div>Loading Products...</div>}>
+        <AllProductsClient />
+      </Suspense>
+
+      <Footer />
+    </>
+  );
+}
