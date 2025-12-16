@@ -12,9 +12,12 @@ cloudinary.config({
 
 // GET product by ID
 export async function GET(req, { params }) {
+ // params is a Promise now, so do:
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
+
   try {
     await connectDB();
-    const { id } = params; // get product id from URL
 
     const product = await Product.findById(id);
     if (!product) return NextResponse.json({ success: false, message: "Product not found" });

@@ -14,7 +14,7 @@ const Aboutus = () => {
         </div>
         <div className='md:w-1/2  '>
             <div className='h-full md:pt-10'>
-            <img src='https://imgs.search.brave.com/Xt1HE3FUAic6qzMVgB7iCLxJwEVvK1AN2xZJRrF87U4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAxLzcxLzg4LzIw/LzM2MF9GXzE3MTg4/MjAzM19NbFM0Z2xY/UkpUMm5NeHBXeXhU/d0RuQXNKT2J5aExs/dC5qcGc' className='w-full h-full object-cover rounded' alt='about us'/>
+            <img src='./About_us_page.jpg' className='w-full h-full object-cover rounded' alt='about us'/>
                         </div>
         </div>
     </div>

@@ -9,6 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 const EditProduct = () => {
   const router = useRouter();
   const params = useParams();
+  console.log("params",params)
   const productId = params.id;
 
   const [sellerId, setSellerId] = useState('');

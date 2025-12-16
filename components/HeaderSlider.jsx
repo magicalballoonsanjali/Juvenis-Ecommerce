@@ -13,6 +13,7 @@ const HeaderSlider = () => {
     buttonText2: "Find more",
     imgSrc: assets.home_banner,
     textPosition: "left",
+    mobileImgSrc:assets.Mobile_Home_banner_1,
   },
   {
     id: 2,
@@ -22,29 +23,33 @@ const HeaderSlider = () => {
     buttonText2: "Explore Deals",
     imgSrc:  assets.hair_banner_new,
     textPosition: "right",
+    mobileImgSrc:assets.Mobile_Home_banner_1,
   },
+
   {
     id: 3,
     title: "Shop Smarter for Your Health.",
     offer: "Exclusive Deal 40% Off",
     buttonText1: "Order Now",
     buttonText2: "Learn More",
-    imgSrc: assets.home_banner_3,
+    imgSrc: assets.home_banner_5,
     textPosition: "left",
+    mobileImgSrc:assets.Mobile_Home_banner_1,
   },
-  {
-    id: 4,
-    title: "Shop Smarter for Your Health.",
-    offer: "Exclusive Deal 40% Off",
-    buttonText1: "Order Now",
-    buttonText2: "Learn More",
-    imgSrc: assets.home_banner_4,
-    textPosition: "left",
-  },
+   
 ];
 
-
+  const [isMobile,setIsMobile] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(()=>{
+    const checkScreen =()=>{
+      setIsMobile(window.innerWidth <768);
+    };
+    checkScreen();
+    window.addEventListener("resize",checkScreen);
+    return ()=> window.removeEventListener("resize",checkScreen)
+  },[])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,9 +58,9 @@ const HeaderSlider = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // const handleSlideChange = (index) => {
-  //   setCurrentSlide(index);
-  // };
+  const handleSlideChange = (index) => {
+    setCurrentSlide(index);
+  };
 
   return (
     <div className="overflow-hidden relative w-full ">
@@ -67,15 +72,17 @@ const HeaderSlider = () => {
       >
         {sliderData.map((slide) => (
   <div
-    key={slide.id}
-    className="min-w-full h-[400px] md:h-[500px] bg-cover bg-center bg-no-repeat rounded-xl"
-    style={{
-      backgroundImage: `url(${slide.imgSrc.src})`,
-    }}
-  >
+  key={slide.id}
+  className="min-w-full h-[400px] md:h-[500px] bg-cover bg-center bg-no-repeat rounded-xl md:px-20"
+  style={{
+    backgroundImage: `url(${
+      isMobile ? slide.mobileImgSrc.src : slide.imgSrc.src
+    })`,
+  }}
+>
     <div
       className={`h-full flex items-center px-5 md:px-14
-        ${slide.textPosition === "right" ? "justify-end" : "justify-start"}
+        ${ slide.textPosition === "right" ? "justify-end" : "justify-start"}  ${isMobile ? "items-start pt-6" : "items-center"}
       `}
     >
       <div
@@ -92,7 +99,7 @@ const HeaderSlider = () => {
         </h1>
 
         <div
-          className={`flex items-center mt-4 md:mt-6 gap-4
+          className={`flex items-center mt-4 md:mt-6 gap-4 
             ${slide.textPosition === "right" ? "justify-end" : ""}
           `}
         >

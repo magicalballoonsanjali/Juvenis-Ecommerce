@@ -159,7 +159,7 @@ const STATES = [
                   <div className="md:w-1/2 bg-green-800">
                      <Image
                     className="w-full object-cover rounded"
-                    src="/address.jpg"
+                    src="/About_us_page.jpg"
                     alt="my_location_image"
                     width={500}
                     height={600}

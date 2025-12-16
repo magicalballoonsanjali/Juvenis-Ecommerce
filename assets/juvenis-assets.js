@@ -72,6 +72,10 @@ import parcel_icon from "./parcel.png"
 import home_banner_3 from "./home_banner_3.jpg"
 import home_banner_4 from "./home_banner_4.jpg"
 import Schedule_Your_Appointment from "./Schedule_Your_Appointment.jpg"
+import About_us_page from "./About_us_page.jpg"
+import home_banner_5 from "./home_banner_5.jpg"
+import Mobile_Home_banner_1 from "./Mobile_Home_banner_1.jpg"
+
 
 export const assets = {
   acansis_cream1_jpeg,
@@ -96,7 +100,9 @@ export const assets = {
   home_banner_3,
   home_banner_4,
   Schedule_Your_Appointment ,
-
+  About_us_page,
+home_banner_5,
+Mobile_Home_banner_1,
 
 
 
