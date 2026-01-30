@@ -23,7 +23,7 @@ const HeaderSlider = () => {
     buttonText2: "Explore Deals",
     imgSrc:  assets.hair_banner_new,
     textPosition: "right",
-    mobileImgSrc:assets.Mobile_Home_banner_1,
+    mobileImgSrc:assets.Mobile_Home_banner_2,
   },
 
   {
@@ -34,7 +34,7 @@ const HeaderSlider = () => {
     buttonText2: "Learn More",
     imgSrc: assets.home_banner_5,
     textPosition: "left",
-    mobileImgSrc:assets.Mobile_Home_banner_1,
+    mobileImgSrc:assets.Mobile_Home_banner_3,
   },
    
 ];

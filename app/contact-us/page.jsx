@@ -108,7 +108,7 @@ const page = () => {
       
       <div className="flex flex-col lg:flex-row justify-center items-center gap-8 px-2 py-12 bg-white">
   {/* Contact Card */}
-  <div className="w-80 h-auto bg-[#b98f6a] text-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 text-center">
+  <div className="w-80 h-auto bg-[#e2b284] text-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 text-center">
     <div className="bg-white text-[#cba176] p-4 rounded-full mb-6 mx-auto w-fit">
       <Phone className="size-12" />
     </div>
@@ -118,17 +118,17 @@ const page = () => {
   </div>
 
   {/* Location Card */}
-  <div className="w-80  h-auto bg-[#b98f6a] text-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 text-center">
+  <div className="w-80  h-auto bg-[#e2b284] text-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 text-center">
     <div className="bg-white text-[#cba176] p-4 rounded-full mb-6 mx-auto w-fit">
       <MapPin className="size-12" />
     </div>
     <h2 className="text-2xl font-bold mb-2">Location</h2>
     <p className="text-base font-medium">4, Adarsh, Santacruz (W)</p>
-    <p className="text-base font-medium">Mumbai – 400 054</p>
+    <p className="text-base font-medium">Mumbai – 400054</p>
   </div>
 
   {/* Time Card */}
-  <div className="w-80  h-auto bg-[#b98f6a] text-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 text-center">
+  <div className="w-80  h-auto bg-[#e2b284] text-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-y-1 text-center">
     <div className="bg-white text-[#cba176] p-4 rounded-full mb-6 mx-auto w-fit">
       <Clock4 className="size-12" />
     </div>

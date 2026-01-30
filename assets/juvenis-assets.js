@@ -74,8 +74,9 @@ import home_banner_4 from "./home_banner_4.jpg"
 import Schedule_Your_Appointment from "./Schedule_Your_Appointment.jpg"
 import About_us_page from "./About_us_page.jpg"
 import home_banner_5 from "./home_banner_5.jpg"
-import Mobile_Home_banner_1 from "./Mobile_Home_banner_1.jpg"
-
+import Mobile_Home_banner_2 from "./Mobile_Banner/Mobile_Home_banner_2.jpg"
+import Mobile_Home_banner_3 from "./Mobile_Banner/Mobile_Home_banner_3.jpg"
+import Mobile_Home_banner_1 from "./Mobile_Banner/Mobile_Home_banner_1.jpg"
 
 export const assets = {
   acansis_cream1_jpeg,
@@ -103,7 +104,8 @@ export const assets = {
   About_us_page,
 home_banner_5,
 Mobile_Home_banner_1,
-
+Mobile_Home_banner_2,
+Mobile_Home_banner_3,
 
 
   logo,
