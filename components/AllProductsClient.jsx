@@ -108,7 +108,7 @@ export default function AllProductsClient() {
           <div>
             <p className="text-2xl font-medium">All Products</p>
             <div className="w-16 h-0.5 bg-[#009bf1] rounded-full"></div>
-          </div>
+          </div> 
 
           <select
             onChange={(e) => setSortType(e.target.value)}
