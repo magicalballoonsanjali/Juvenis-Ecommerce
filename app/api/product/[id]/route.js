@@ -143,29 +143,25 @@ export async function GET(req, { params }) {
 const sendMail = async (to, productName, productId) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    await transporter.sendMail({
-      from: `"Your Store" <${process.env.GMAIL_USER}>`,
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
       to,
       subject: "Product Back in Stock!",
-      html: `
-        <h2>🎉 ${productName} is Back in Stock!</h2>
-        <p>Hurry up before it runs out again.</p>
-        <a href="http://localhost:3000/product/${productId}">
-          View Product
-        </a>
-      `,
+      html: `<h2>${productName} is back</h2>`,
     });
 
-    console.log("Mail sent to:", to);
+    console.log("✅ EMAIL RESPONSE:", info);
   } catch (err) {
-    console.log("Mail error:", err);
+    console.error("❌ EMAIL ERROR:", err);
   }
 };
 // PATCH / update product by ID
