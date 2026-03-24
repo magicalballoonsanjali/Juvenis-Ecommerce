@@ -9,10 +9,31 @@ import { useParams } from "next/navigation";
 import Loading from "../../../components/Loading";
 import { useAppContext } from "../../../context/AppContext";
 import React from "react";
+import axios from "axios";
 
 const Product = () => {
   const { id } = useParams();
   const { products, router, addToCart } = useAppContext();
+
+  // notify button
+  const [showForm, setShowForm] = useState(false);
+const [email, setEmail] = useState("");
+
+const handleNotify = async () => {
+  try {
+    const { data } = await axios.post("/api/notify", {
+      email,
+      productId: productData._id,
+    });
+
+    alert(data.message);
+    setShowForm(false);
+    setEmail("");
+
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   const [mainImage, setMainImage] = useState(null);
   const [productData, setProductData] = useState(null);
@@ -136,16 +157,18 @@ const Product = () => {
               </button>
 {/* to dooooooooooo */}
               <button 
-                onClick={() => {
-                  productData.stock <= 0 ? router.push("/address"):
-                  addToCart(productData._id, false);
-                  router.push("/cart");
-                }}
-                
-                className={`w-full py-3.5 bg-[#009bf1] text-white hover:bg-[#34a2dd] transition`}
-              >
-                {productData.stock <= 0 ? "Notify Me":"Buy Now" }
-              </button>
+  onClick={() => {
+    if (productData.stock <= 0) {
+      setShowForm(true); // ✅ open form
+    } else {
+      addToCart(productData._id, false);
+      router.push("/cart");
+    }
+  }}
+  className="w-full py-3.5 bg-[#009bf1] text-white hover:bg-[#34a2dd] transition"
+>
+  {productData.stock <= 0 ? "Notify Me" : "Buy Now"}
+</button>
             </div>
           </div>
         </div>
@@ -170,6 +193,37 @@ const Product = () => {
       </div>
 
       <Footer />
+      {showForm && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg w-80">
+      <h2 className="text-lg font-semibold mb-4">Notify Me</h2>
+
+      <input
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full border p-2 mb-4 rounded"
+      />
+
+      <div className="flex justify-between">
+        <button
+          onClick={handleNotify}
+          className="bg-[#009bf1] text-white px-4 py-2 rounded"
+        >
+          Submit
+        </button>
+
+        <button
+          onClick={() => setShowForm(false)}
+          className="bg-gray-300 px-4 py-2 rounded"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </>
   ) : (
     <Loading />
