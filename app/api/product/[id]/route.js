@@ -149,6 +149,7 @@ const sendMail = async (to, productName, productId) => {
         pass: process.env.GMAIL_APP_PASSWORD,
       },
       family:4,
+      
     });
 
     await transporter.sendMail({

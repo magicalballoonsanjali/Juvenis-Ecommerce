@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+
 import search_icon from "./search_icon.svg";
 import user_icon from "./user_icon.svg";
 import cart_icon from "./cart_icon.svg";
@@ -77,6 +77,7 @@ import home_banner_5 from "./home_banner_5.jpg"
 import Mobile_Home_banner_2 from "./Mobile_Banner/Mobile_Home_banner_2.jpg"
 import Mobile_Home_banner_3 from "./Mobile_Banner/Mobile_Home_banner_3.jpg"
 import Mobile_Home_banner_1 from "./Mobile_Banner/Mobile_Home_banner_1.jpg"
+import logo from "./logo.jpeg"
 
 export const assets = {
   acansis_cream1_jpeg,
@@ -106,9 +107,8 @@ home_banner_5,
 Mobile_Home_banner_1,
 Mobile_Home_banner_2,
 Mobile_Home_banner_3,
+logo,
 
-
-  logo,
   search_icon,
   user_icon,
   cart_icon,

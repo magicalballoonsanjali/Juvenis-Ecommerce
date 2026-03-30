@@ -17,6 +17,8 @@ const isSeller = user?.isSeller;
   const [menuOpen, setMenuOpen] = useState(false);
 
   const routerNext = useRouter();
+
+  
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
 
@@ -42,18 +44,17 @@ const isSeller = user?.isSeller;
     }
   };
 
-//  useEffect(() => {
-//   if (user) setIsSeller(user.isSeller);
-// }, [user]);
+
   
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <nav className="relative flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
         <Image
-          className="hidden md:block cursor-pointer"
+          className="w-30 hidden md:block cursor-pointer"
           onClick={() => routerNext.push("/")}
-          src={assets.juvenis_logo}
+          src={assets.logo}
           alt="logo"
+         
         />
 
     {/* Navigation Links */}
@@ -185,7 +186,7 @@ const isSeller = user?.isSeller;
         {/* Mobile Navbar */}
       
       </nav>
-      <div className="md:hidden relative flex items-center justify-between py-3 px-4 bg-white gap-10 border-b border-gray-300">
+      <div className="md:hidden relative flex items-center py-3 px-4 bg-white gap-10 border-b border-gray-300 justify-between">
       
       {/* LEFT: Hamburger Drawer */}
       <button onClick={() => setMobileOpen(!mobileOpen)}>
@@ -194,9 +195,9 @@ const isSeller = user?.isSeller;
 
       {/* CENTER: Logo */}
        <Image
-          className=" md:hidden  cursor-pointer"
+          className="w-36 md:hidden  cursor-pointer pl-5"
           onClick={() => router.push("/")}
-          src={assets.juvenis_logo}
+          src={assets.logo}
           alt="logo"
         />
 
