@@ -37,7 +37,7 @@ const HomeProducts = () => {
 
       {/* Product Grid */}
       <div className=" relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-items-center">
-         {products.map((product, index) => <ProductCard key={index} product={product} />)}
+         {popularProducts.map((product, index) => <ProductCard key={index} product={product} />)}
       </div>
 
       {/* CTA Button */}
