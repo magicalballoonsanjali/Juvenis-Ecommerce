@@ -18,11 +18,11 @@ const ProductCard = ({ product }) => {
       }}
       className="flex flex-col items-start gap-1 w-full max-w-[260px] sm:max-w-[300px] md:max-w-[260px] cursor-pointer pb-5"
     >
-      <div className="cursor-pointer group relative bg-gray-500/10 rounded-lg w-full h-80 flex items-center justify-center shadow-lg">
+      <div className="cursor-pointer group relative bg-gray-500/10 rounded-lg w-[300px] h-80 flex items-center justify-center shadow-lg">
         <Image
           src={product.image[0]}
           alt={product.name}
-          className="group-hover:scale-105 transition object-cover w-11/12 sm:w-full h-11/12 sm:h-full mix-blend-multiply"
+          className="group-hover:scale-105 transition object-cover w-11/12 sm:w-full h-11/12 sm:h-full mix-blend-multiply "
           width={800}
           height={800}
         />

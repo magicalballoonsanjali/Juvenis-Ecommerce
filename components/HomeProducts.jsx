@@ -36,7 +36,7 @@ const HomeProducts = () => {
       </div>
 
       {/* Product Grid */}
-      <div className=" relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-items-center">
+      <div className=" relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
          {popularProducts.map((product, index) => <ProductCard key={index} product={product} />)}
       </div>
 
