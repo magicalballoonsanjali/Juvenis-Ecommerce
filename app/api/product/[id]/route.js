@@ -114,7 +114,7 @@ import Notify from "../../../../models/Notify";
 import nodemailer from "nodemailer";
 
 import { v2 as cloudinary } from "cloudinary";
-import redis from "../../../../lib/redis";
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -122,81 +122,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// GET product by ID without redis 
-export async function GET(req, { params }) {
- // params is a Promise now, so do:
-  const resolvedParams = await params;
-  const { id } = resolvedParams;
-
-  try {
-    await connectDB();
-
-    const product = await Product.findById(id);
-    if (!product) return NextResponse.json({ success: false, message: "Product not found" });
-
-    return NextResponse.json({ success: true, product });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ success: false, message: err.message });
-  }
-}
 
 
-// with redis
-// export async function GET(req, { params }) {
-//   const { id } = await params;
 
-//   try {
-//     await connectDB();
 
-//     const cacheKey = `product:${id}`;
-//     console.log("👉 Cache Key:", cacheKey);
-
-//     // ✅ STEP 1: Check Redis
-//     const cachedProduct = await redis.get(cacheKey);
-//     console.log("👉 Cached value:", cachedProduct);
-
-//     if (cachedProduct) {
-//       console.log("✅ Cache HIT");
-//       return NextResponse.json({
-//         success: true,
-//         product: cachedProduct,
-//       });
-//     }
-
-//     // ❌ STEP 2: Fetch from DB
-//     console.log("❌ Cache MISS - fetching from DB");
-
-//     const product = await Product.findById(id).lean();
-//     console.log("👉 DB Product:", product);
-
-//     if (!product) {
-//       return NextResponse.json({
-//         success: false,
-//         message: "Product not found",
-//       });
-//     }
-
-//     // ⚡ STEP 3: Store in Redis
-//     console.log("💾 Saving to Redis...");
-
-//     await redis.set(cacheKey, product, { ex: 3600 });
-
-//     console.log("✅ Saved to Redis");
-
-//     return NextResponse.json({
-//       success: true,
-//       product,
-//     });
-
-//   } catch (err) {
-//     console.error("❌ ERROR:", err);
-//     return NextResponse.json({
-//       success: false,
-//       message: err.message,
-//     });
-//   }
-// }
 
 const sendMail = async (to, productName, productId) => {
   try {
