@@ -24,9 +24,13 @@ export default function AllProductsClient() {
 
   const applyFilter = () => {
     let copy = products.slice();
+
     if (categories.length > 0) {
       copy = copy.filter((item) => categories.includes(item.category));
     }
+
+ 
+
     setFilteredProducts(copy);
   };
 
@@ -45,22 +49,50 @@ export default function AllProductsClient() {
     }
     setFilteredProducts(copy);
   };
-
-  useEffect(() => setFilteredProducts(products), [products]);
+  
   useEffect(() => applyFilter(), [categories]);
   useEffect(() => sortProducts(), [sortType]);
 
+// sorting accoridng to images meaning feature
   useEffect(() => {
-    let copy = products.slice();
-    if (searchTerm) {
-      copy = copy.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchTerm) ||
-          item.category.toLowerCase().includes(searchTerm)
-      );
-    }
-    setFilteredProducts(copy);
-  }, [products, searchTerm]);
+  let copy = [...products];
+
+  copy.sort((a, b) => b.isFeatured - a.isFeatured);
+
+  setFilteredProducts(copy);
+}, [products]);
+
+
+  // useEffect(() => {
+  //   let copy = products.slice();
+  //   if (searchTerm) {
+  //     copy = copy.filter(
+  //       (item) =>
+  //         item.name.toLowerCase().includes(searchTerm) ||
+  //         item.category.toLowerCase().includes(searchTerm)
+  //     );
+  //   }
+  //   setFilteredProducts(copy);
+  // }, [products, searchTerm]);
+
+
+  useEffect(() => {
+  let copy = products.slice();
+
+  if (searchTerm) {
+    copy = copy.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchTerm) ||
+        item.category.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  // featured products first
+  copy.sort((a, b) => b.isFeatured - a.isFeatured);
+
+  setFilteredProducts(copy);
+
+}, [products, searchTerm]);
 
   return (
     <div className="flex flex-col md:flex-row items-start px-6 md:px-16 lg:px-32 pt-10 gap-10">

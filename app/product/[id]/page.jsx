@@ -174,22 +174,27 @@ const handleNotify = async () => {
         </div>
 
         {/* Related Products */}
-        <div className="flex flex-col items-center">
+       <div className="flex flex-col  gap-5">
           <div className="flex flex-col items-center mb-4 mt-16">
-            <p className="text-3xl font-medium">
-              Related <span className="font-medium text-[#009bf1]">Products</span>
+            <p className="text-4xl font-medium">
+              Related <span className="font-medium text-[#1a9f82]">Products</span>
             </p>
-            <div className="w-28 h-0.5 bg-[#009bf1] mt-2"></div>
+            <div className="w-28 h-0.5 bg-[#1a9f82] mt-2"></div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-6 pb-14 w-full">
+       
+          <div className="flex gap-20 flex-col md:flex-row flex-wrap">
             {related.slice(0, 5).map((product, index) => (
               <ProductCard key={index} product={product} />
             ))}
           </div>
+
+          <div className="flex  justify-center py-10">
           <button className="px-8 py-2 mb-16 border rounded text-gray-500/70 hover:bg-slate-50/90 transition">
             See more
           </button>
-        </div>
+          </div>
+
+           </div>
       </div>
 
       <Footer />

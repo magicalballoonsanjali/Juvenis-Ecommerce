@@ -22,6 +22,7 @@ export default function Home() {
     <FeaturedProduct/>
     <SelfCareSimplified/>
     <MiddlePart/>
+    <Review/>
     {/* <Review/> */}
     <Footer/>
     </>

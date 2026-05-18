@@ -11,6 +11,10 @@ const productSchema = new mongoose.Schema({
   date: { type: Number, required: true },
  stock: { type: Number, required: true, default: 0 }, // seller sets quantity
   available: { type: Boolean, default: true },
+  isFeatured: {
+  type: Boolean,
+  default: true,
+}
 });
 productSchema.pre("save", function(next) {
   this.available = this.quantity > 0;
@@ -21,5 +25,5 @@ productSchema.pre("save", function(next) {
 const Product =
   mongoose.models.Product || mongoose.model("Product", productSchema);
 
-  
+
 export default Product;
