@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer2 from '../../components/Footer2'
 
@@ -7,7 +7,9 @@ const page = () => {
     <div>
 
     
-      <Navbar/>
+       <Suspense fallback={<div>Loading Navbar...</div>}>
+        <Navbar />
+      </Suspense>
     <div className='space-y-10 max-w-7xl mx-auto mt-5'>
 {/* Cancellation / Refund Policy */}
 <section className="  p-6 md:p-8 ">

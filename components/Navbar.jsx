@@ -83,13 +83,13 @@ const isSeller = user?.isSeller;
     <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#1893bf] transition-all duration-300 group-hover:w-full"></span>
   </Link>
 
-  {/* <Link
+  <Link
     href="/contact-us"
     className="relative group text-gray-700 hover:text-[#1893bf] transition"
   >
     Contact
     <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#1893bf] transition-all duration-300 group-hover:w-full"></span>
-  </Link> */}
+  </Link>
 
   {/* <Link
     href="/policy"

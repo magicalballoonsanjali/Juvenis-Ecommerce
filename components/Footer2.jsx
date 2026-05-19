@@ -158,7 +158,7 @@ const Footer2 = () => {
             </h2>
 
             <div className="space-y-3 text-sm text-gray-500">
-              <p>+91 9769966696</p>
+              <p> 9769933396</p>
 
               <p className="break-words">
             products@juvenisinnovations.in

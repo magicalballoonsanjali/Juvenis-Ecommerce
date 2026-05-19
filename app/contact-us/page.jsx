@@ -114,7 +114,7 @@ const page = () => {
       <Phone className="size-12" />
     </div>
     <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
-    <p className="text-base font-medium">+91 9769966696</p>
+    <p className="text-base font-medium">+91 9769933396</p>
     <p className="text-base font-medium">products@juvenisinnovations.in
 </p>
   </div>

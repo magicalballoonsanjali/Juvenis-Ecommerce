@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer2 from '../../components/Footer2'
 
 const page = () => {
   return (
     <div>
-        <Navbar/>
+         <Suspense fallback={<div>Loading Navbar...</div>}>
+          <Navbar />
+        </Suspense>
        <div className='space-y-10 max-w-7xl mx-auto mt-8'>
       <section className="bg-white  rounded-xl p-6 md:p-8 mt-5 ">
   <h2 className="text-2xl font-semibold text-[#1c479e] mb-6 border-b pb-3">
