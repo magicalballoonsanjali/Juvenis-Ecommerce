@@ -90,9 +90,9 @@ const HeaderSlider = () => {
           ${slide.textPosition === "right" ? "text-right" : "text-left"}
         `}
       >
-        <p className="md:text-base text-[#ee8d84] pb-1">
+        {/* <p className="md:text-base text-[#ee8d84] pb-1">
           {slide.offer}
-        </p>
+        </p> */}
 
         <h1 className="md:text-[40px] md:leading-[48px] text-2xl font-semibold">
           {slide.title}

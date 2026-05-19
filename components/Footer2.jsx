@@ -163,11 +163,6 @@ const Footer2 = () => {
               <p className="break-words">
             products@juvenisinnovations.in
               </p>
-
-              <p>
-               4, Adarsh, Santacruz (W)<br />      
-                Mumbai – 400054
-              </p>
             </div>
           </div>
 
@@ -177,13 +172,13 @@ const Footer2 = () => {
 
       {/* Bottom Footer */}
       <div className="border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-5 flex flex-col md:flex-row items-center justify-between gap-3 justify-center flex">
 
           <p className="text-xs md:text-sm text-gray-500 text-center">
             © 2026 Juvenis Innovations LLP. All Rights Reserved.
           </p>
 
-          <div className="flex items-center gap-5 text-xs md:text-sm text-gray-500">
+          {/* <div className="flex items-center gap-5 text-xs md:text-sm text-gray-500">
             <Link
               href="/policies"
               className="hover:text-black transition"
@@ -204,7 +199,7 @@ const Footer2 = () => {
             >
               Support
             </Link>
-          </div>
+          </div> */}
 
         </div>
       </div>

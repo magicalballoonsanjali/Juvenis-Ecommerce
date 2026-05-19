@@ -24,7 +24,7 @@ export default function Review() {
       role: "Freelancer",
       review:
         "User-friendly, clean, and efficient. I’ve been using it for months without any issues.",
-      rating: 5,
+      rating: 2,
       image: "/user3.jpg",
     },
     
@@ -62,7 +62,7 @@ export default function Review() {
                   className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 shadow-sm"
                 />
                 <h3 className="text-2xl font-semibold text-gray-800">{r.name}</h3>
-                <p className="text-gray-500 text-sm mb-3">{r.role}</p>
+                {/* <p className="text-gray-500 text-sm mb-3">{r.role}</p> */}
 
                 {/* Stars */}
                 <div className="flex justify-center mb-4">
