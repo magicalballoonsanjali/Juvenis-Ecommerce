@@ -10,6 +10,7 @@ import Loading from "../../../components/Loading";
 import { useAppContext } from "../../../context/AppContext";
 import React from "react";
 import axios from "axios";
+import Footer2 from "../../../components/Footer2";
 
 const Product = () => {
   const { id } = useParams();
@@ -139,7 +140,7 @@ const handleNotify = async () => {
               {productData.stock <= 0 ? (
                 <span className="text-red-600 font-bold">Out of Stock</span>
               ) : (
-                <span className="text-green-600 font-semibold">In Stock</span>
+                <span className="text-[#075c2e] font-semibold bg-green-100 rounded-xl p-2">In Stock</span>
               )}
             </div>
 
@@ -197,7 +198,7 @@ const handleNotify = async () => {
            </div>
       </div>
 
-      <Footer />
+      <Footer2 />
       {showForm && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg w-80">

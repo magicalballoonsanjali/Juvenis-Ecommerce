@@ -7,6 +7,7 @@ import axios from "axios";
 import Footer from "../../../components/Footer";
 import Loading from "../../../components/Loading";
 import toast from "react-hot-toast";
+import Footer2 from "../../../components/Footer2";
 
 const ProductList = () => {
   const { router, user } = useAppContext(); // no getToken
@@ -181,7 +182,7 @@ const ProductList = () => {
 
       </div>
 
-      <Footer />
+      <Footer2 />
     </div>
   );
 };

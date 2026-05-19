@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar';
 import React, { Suspense } from 'react'
 import { Clock4, LocationEdit, Mail, MapPin, Phone } from "lucide-react";
 import Footer from '../../components/Footer';
+import Footer2 from '../../components/Footer2';
 
 const page = () => {
     
@@ -114,7 +115,8 @@ const page = () => {
     </div>
     <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
     <p className="text-base font-medium">+91 9769966696</p>
-    <p className="text-base font-medium">getyoung@juvenis.in</p>
+    <p className="text-base font-medium">products@juvenisinnovations.in
+</p>
   </div>
 
   {/* Location Card */}
@@ -137,7 +139,7 @@ const page = () => {
     <p className="text-base font-medium">Tue / Thu / Sat: 10 AM – 5 PM</p>
   </div>
 </div>
-<Footer/>
+<Footer2/>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Footer2 from "../../components/Footer2";
 
 const MyOrders = () => {
   const { currency, user,userLoaded } = useAppContext();
@@ -150,7 +151,7 @@ const MyOrders = () => {
         )}
       </main>
 
-      <Footer />
+      <Footer2 />
     </>
   );
 };

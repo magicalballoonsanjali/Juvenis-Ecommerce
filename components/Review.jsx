@@ -57,7 +57,7 @@ export default function Review() {
             >
               <div className="flex flex-col items-center text-center">
                 <img
-                  src={r.image}
+                  src="/userdummyimage.avif"
                   alt={r.name}
                   className="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 shadow-sm"
                 />

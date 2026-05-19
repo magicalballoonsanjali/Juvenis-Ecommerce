@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import Aboutus from '../../components/Aboutus'
 import { Suspense } from "react";
+import Footer2 from '../../components/Footer2';
 
 const page = () => {
   return (
@@ -11,7 +12,7 @@ const page = () => {
       <Navbar/>
    </Suspense>
       <Aboutus/>
-      <Footer/>
+      <Footer2/>
       </>
   )
 }

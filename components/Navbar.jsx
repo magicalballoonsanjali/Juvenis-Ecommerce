@@ -48,7 +48,7 @@ const isSeller = user?.isSeller;
   
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <nav className="relative flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700">
+      <nav className="relative flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 text-gray-700 sticky top-0 z-50 h-20 transition-all duration-300 bg-white hidden md:flex">
         <Image
           className="w-30 hidden md:block cursor-pointer"
           onClick={() => routerNext.push("/")}
@@ -83,13 +83,21 @@ const isSeller = user?.isSeller;
     <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#1893bf] transition-all duration-300 group-hover:w-full"></span>
   </Link>
 
-  <Link
+  {/* <Link
     href="/contact-us"
     className="relative group text-gray-700 hover:text-[#1893bf] transition"
   >
     Contact
     <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#1893bf] transition-all duration-300 group-hover:w-full"></span>
-  </Link>
+  </Link> */}
+
+  {/* <Link
+    href="/policy"
+    className="relative group text-gray-700 hover:text-[#1893bf] transition"
+  >
+    Policy
+    <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#1893bf] transition-all duration-300 group-hover:w-full"></span>
+  </Link> */}
   {isSeller && (
   <button
     onClick={() => router.push("/seller")}
@@ -186,7 +194,7 @@ const isSeller = user?.isSeller;
         {/* Mobile Navbar */}
       
       </nav>
-      <div className="md:hidden relative flex items-center py-3 px-4 bg-white gap-10 border-b border-gray-300 justify-between">
+      <div className="md:hidden relative flex items-center py-3 px-4 bg-white gap-10 border-b border-gray-300 justify-between sticky top-0 z-50 h-22">
       
       {/* LEFT: Hamburger Drawer */}
       <button onClick={() => setMobileOpen(!mobileOpen)}>
@@ -292,9 +300,9 @@ const isSeller = user?.isSeller;
           <Link href="/about-us" onClick={() => setMobileOpen(false)}>
             About Us
           </Link>
-          <Link href="/contact-us" onClick={() => setMobileOpen(false)}>
+          {/* <Link href="/contact-us" onClick={() => setMobileOpen(false)}>
             Contact
-          </Link>
+          </Link> */}
 
           {/* Seller Dashboard */}
           {isSeller && (

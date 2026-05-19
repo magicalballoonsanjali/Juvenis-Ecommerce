@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import Topslider from "../components/Topslider";
 import MiddlePart from "../components/MiddlePart";
 import { Suspense } from "react";
+import Footer2 from "../components/Footer2";
 export default function Home() {
   return (
     <>
@@ -24,7 +25,7 @@ export default function Home() {
     <MiddlePart/>
     <Review/>
     {/* <Review/> */}
-    <Footer/>
+    <Footer2/>
     </>
   );
 }

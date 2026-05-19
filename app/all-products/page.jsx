@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Navbar from "../../components/Navbar";
 import AllProductsClient from "../../components/AllProductsClient";
 import Footer from "../../components/Footer";
+import Footer2 from "../../components/Footer2";
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
         <AllProductsClient />
       </Suspense>
 
-      <Footer />
+      <Footer2 />
     </>
   );
 }

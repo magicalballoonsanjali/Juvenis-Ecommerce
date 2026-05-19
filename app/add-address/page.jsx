@@ -9,6 +9,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Suspense } from "react";
 import { useEffect } from "react";
+import Footer2 from "../../components/Footer2";
 
 const AddAddress = () => {
     const {setUser,router}=useAppContext()
@@ -167,7 +168,7 @@ const STATES = [
                 
                   </div>
             </div>
-            <Footer />
+            <Footer2 />
         </Suspense>
         </>
     );
