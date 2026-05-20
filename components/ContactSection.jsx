@@ -25,7 +25,10 @@ const ContactSection = () => {
     const router = useRouter();
   return (
     <div className="bg-[#f8fbff] text-gray-800">
-        <Navbar/>
+        
+               <Suspense fallback={<div>Loading Navbar...</div>}>
+                <Navbar />
+              </Suspense>
       {/* HERO SECTION */}
     <section className="relative overflow-hidden border-b border-blue-100 bg-[#f4efe2]">
   {/* Background Blur */}
