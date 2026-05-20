@@ -157,6 +157,35 @@ const sendMail = async (to, productName, productId) => {
     console.log("Mail error:", err);
   }
 };
+// GET single product by ID
+export async function GET(req, { params }) {
+  try {
+    await connectDB();
+
+    const { id } = await params;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return NextResponse.json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      product,
+    });
+
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
 // PATCH / update product by ID
 export async function PATCH(req, { params }) {
   try {
