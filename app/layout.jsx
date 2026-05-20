@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Juvenis Ecommerce",
-  description: "juvenis ecommerce website",
+  title: "Juvenis Innovations",
+  description: "Juvenis Innovations website",
 };
 
 export default function RootLayout({ children }) {
