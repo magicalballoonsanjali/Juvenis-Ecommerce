@@ -6,7 +6,7 @@ export async function GET(request){
     try{
          await connectDB()
 
-        const products = await Product.find({})
+        const products = await Product.find({ available: false,})
 
         return NextResponse.json({success:true,products})
     }

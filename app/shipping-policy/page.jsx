@@ -5,9 +5,12 @@ import Footer2 from '../../components/Footer2'
 const page = () => {
   return (
     <div>
+
+    
          <Suspense fallback={<div>Loading Navbar...</div>}>
           <Navbar />
         </Suspense>
+
        <div className='space-y-10 max-w-7xl mx-auto mt-8'>
       <section className="bg-white  rounded-xl p-6 md:p-8 mt-5 ">
   <h2 className="text-2xl font-semibold text-[#1c479e] mb-6 border-b pb-3">
@@ -24,6 +27,7 @@ const page = () => {
       <h3 className="text-lg font-medium text-gray-800 mb-3">
         Shipping Policy:
       </h3>
+      
 
       <ul className="list-disc pl-5 space-y-2">
         <li>
