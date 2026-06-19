@@ -212,7 +212,8 @@ const OrderSummary = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userAddresses, setUserAddresses] = useState([]);
-
+const [loading, setLoading] = useState(false);
+const [step, setStep] = useState("");
   // -----------------------------
   // Fetch user addresses
   // -----------------------------
@@ -301,19 +302,25 @@ const OrderSummary = () => {
         order_id: razorpayOrder.id,
 
         handler: async function (response) {
+          setLoading(true); // 👈 SHOW LOADER IMMEDIATELY
+  setStep("Verifying payment...");
   try {
+     setStep("Creating invoice...");
     const verifyRes = await axios.post("/api/verify", {
       razorpay_order_id: response.razorpay_order_id,
       razorpay_payment_id: response.razorpay_payment_id,
       razorpay_signature: response.razorpay_signature,
       orderId: data.orderId, // 👈 must come from backend
     });
+   setStep("Finalizing order...");
 
     if (verifyRes.data.success) {
+      setStep("Done!");
       toast.success("Payment successful!");
       setCartItems({});
       router.push("/order-placed");
     } else {
+      setLoading(false);
       toast.error("Payment verification failed");
     }
   } catch (error) {
@@ -334,12 +341,28 @@ const OrderSummary = () => {
 
   useEffect(() => {
     if (user) fetchUserAddresses();
+    
   }, [user]);
 
   // -----------------------------
   // UI
   // -----------------------------
   return (
+    
+    <>
+{loading && (
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="h-14 w-14 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+
+        <h2 className="mt-5 text-xl font-semibold text-white">
+          Processing your order
+        </h2>
+
+        <p className="mt-2 text-sm text-gray-200">
+          {step}
+        </p>
+      </div>
+    )}
     <div className="w-full md:w-96 bg-gray-500/5 p-5">
       <h2 className="text-xl md:text-2xl font-medium text-gray-700">
         Order Summary
@@ -438,6 +461,7 @@ const OrderSummary = () => {
         Place Order
       </button>
     </div>
+        </>
   );
 };
 

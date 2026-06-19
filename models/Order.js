@@ -16,6 +16,15 @@ const orderSchema = new mongoose.Schema({
       enum: ["PENDING", "PAID", "FAILED"],
       default: "PENDING",
     },
+   invoiceNumber: {
+  type: String,
+  default: "",
+},
+
+invoiceUrl: {
+  type: String,
+  default: "",
+},
     razorpayOrderId: String,
 razorpayPaymentId: String,
 razorpaySignature: String, // Stripe Checkout Session ID

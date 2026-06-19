@@ -9,6 +9,7 @@ import Loading from "../../components/Loading";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Footer2 from "../../components/Footer2";
+import { FileText } from "lucide-react";
 
 const MyOrders = () => {
   const { currency, user,userLoaded } = useAppContext();
@@ -110,7 +111,7 @@ const MyOrders = () => {
 
                 {/* Amount */}
                 <p className="font-medium my-auto">
-                  {currency} {(order.amount / 100).toFixed(2)}
+                  {currency} {order.amount }
                 </p>
 
                 {/* Status */}
@@ -144,7 +145,49 @@ const MyOrders = () => {
                       {order.paymentStatus || "Pending"}
                     </span>
                   </span>
+                
                 </div>
+                  <span>
+                     {order.invoiceUrl ? (
+          <a
+            href={order.invoiceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              inline-flex items-center gap-2
+              bg-gradient-to-r
+              from-green-500
+              to-emerald-600
+              hover:from-green-600
+              hover:to-emerald-700
+              text-white
+              px-4 py-2
+              rounded-xl
+              shadow-md
+              hover:shadow-lg
+              transition-all duration-300
+              text-sm font-medium
+            "
+          >
+           
+            Download Invoice
+          </a>
+        ) : (
+          <span
+            className="
+              inline-flex
+              px-4 py-2
+              rounded-xl
+              bg-gray-100
+              text-gray-500
+              text-md
+              font-medium
+            "
+          >
+            Not Available
+          </span>
+        )}
+                  </span>
               </div>
             ))}
           </div>

@@ -172,7 +172,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { assets } from "../../../assets/juvenis-assets";
 import Image from "next/image";
-import { Loader2Icon } from "lucide-react";
+import { FileText, Loader2Icon } from "lucide-react";
 
 export default function SellerOrders() {
     const { user, isSeller } = useAppContext();
@@ -222,101 +222,200 @@ export default function SellerOrders() {
   };
 
   return (
-    <div className="flex-1 h-screen overflow-scroll flex flex-col justify-between text-sm">
+    <div className="flex-1 min-h-screen bg-gray-50 overflow-y-auto">
       {/* {loading ? (
         <Loading />
       ) : ( */}
-        <div className="md:p-10 p-4 space-y-5">
-          <h2 className="text-lg font-medium">Orders</h2>
-          <div className="max-w-4xl rounded-md">
-            {orders.map((order, index) => (
-              <div
-                key={index}
-                className="flex flex-col md:flex-row gap-5 justify-between p-5 border-t border-gray-300"
-              >
-                <div className="flex-1 flex gap-5 max-w-80">
-                  <Image
-                    className="max-w-16 max-h-16 object-cover"
-                    src={assets.parcel_icon}
-                    alt="box_icon"
-                  />
-                  <p className="flex flex-col gap-3">
-                    <span className="font-medium flex flex-col gap-1">
-                      {order.items
-                         .map((item,idx) =>(
-                          <span key={idx}>
-                            {  item.product
-        ? `${item.product.name} x ${item.quantity}`
-        : `Deleted Product x ${item.quantity}`}
-                          </span>
-                         )
-                         )}
-                    </span>
-                    <span>Items : {order.items.length}</span>
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <span className="font-medium">
-                      {order.address.fullName}
-                    </span>
-                    <br />
-                    <span>{order.address.area}</span>
-                    <br />
-                    <span>{`${order.address.city}, ${order.address.state}`}</span>
-                    <br />
-                    <span>{order.address.phoneNumber}</span>
-                  </p>
-                </div>
-                <p className="font-medium my-auto">
-                  {"Rs "}
-                  {(order.amount / 100).toFixed(2)}
-                </p>
-                <div>
-                  <p className="flex flex-col">
-                    {/* <span>Method : COD</span> */}
-                    <span>
-                      Date : {new Date(order.date).toLocaleDateString()}
-                    </span>
-                    <span>Payment Status:</span>
-                    <span className={order.paymentStatus === "PAID" ? "text-green-600" : "text-red-600"}> {order.paymentStatus} </span>
-                  </p>
-                </div>
-                 <div className="flex gap-2 flex-col">
-                 <div>Order Status</div>
-                <div className="flex md:justify-center items-center">
-                  {/* {
-                    order.id === orderStatusLoaderId ? (
-                    <div className="flex border p-1 rounded items-center gap-2">
-                      <Loader2Icon className="animate-spin" />
-                      <p>
-                        {order.status === "Order Placed" ?"Pending" : order.status}
-                      </p>
-                    </div>
-                    ) : ( */}
-                    <select
-                    value={order.status}
-                    onChange={updateOrderStatus(order)}
-                    className="flex border p-1 rounded text-center "
-                    >
-                    <option value="Pending">Pending</option>
-                    <option value="Dispatch">Dispatch</option>
-                    <option value="Delivery">Delivery</option>
-                    <option value="Cancelled">Cancelled</option>
+       <div className="max-w-7xl mx-auto p-4 md:p-8">
+          <div className="mb-8">
+  <h2 className="text-3xl font-bold text-gray-900">
+    Orders
+  </h2>
 
-                  </select>
-                    {/* )
-                  
-                } */}
-               
-                </div>
-                </div>
-              </div>
-            ))}
+  <p className="text-gray-500 mt-1">
+    Manage and track customer orders
+  </p>
+</div>
+          <div className="space-y-5">
+            {orders.map((order, index) => (
+             <div
+  key={index}
+  className="
+    bg-white
+    border border-gray-200
+    rounded-2xl
+    shadow-sm
+    hover:shadow-lg
+    transition-all duration-300
+    p-5 md:p-6
+  "
+>
+  {/* Header */}
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5 border-b pb-4">
+    <div>
+      <h3 className="font-semibold text-lg text-gray-800">
+        Order #{order._id.slice(-6)}
+      </h3>
+
+      <p className="text-sm text-gray-500">
+        Date : {new Date(order.date).toLocaleDateString()}
+      </p>
+    </div>
+
+    <span
+      className={`inline-flex w-fit px-3 py-1 rounded-full text-xs font-semibold ${
+        order.paymentStatus === "PAID"
+          ? "bg-green-100 text-green-700"
+          : "bg-red-100 text-red-700"
+      }`}
+    >
+      {order.paymentStatus}
+    </span>
+  </div>
+
+  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6">
+    
+    {/* Products */}
+    <div className="xl:col-span-2 flex gap-4">
+      <Image
+        className="w-16 h-16 object-contain shrink-0"
+        src={assets.parcel_icon}
+        alt="box_icon"
+      />
+
+      <div className="flex flex-col gap-2">
+        <h4 className="font-semibold text-gray-800">
+          Ordered Products
+        </h4>
+
+        <div className="flex flex-col gap-1 text-sm text-gray-600">
+          {order.items.map((item, idx) => (
+            <span key={idx}>
+              {item.product
+                ? `${item.product.name} x ${item.quantity}`
+                : `Deleted Product x ${item.quantity}`}
+            </span>
+          ))}
+        </div>
+
+        <span className="text-sm font-medium text-gray-500">
+          Items : {order.items.length}
+        </span>
+      </div>
+    </div>
+
+    {/* Customer */}
+    <div>
+      <h4 className="font-semibold text-gray-800 mb-2">
+        Customer
+      </h4>
+
+      <div className="text-sm text-gray-600 leading-6">
+        <p className="font-medium text-gray-800">
+          {order.address.fullName}
+        </p>
+
+        <p>{order.address.area}</p>
+
+        <p>
+          {order.address.city},{" "}
+          {order.address.state}
+        </p>
+
+        <p>{order.address.phoneNumber}</p>
+      </div>
+    </div>
+
+    {/* Amount */}
+    <div>
+      <h4 className="font-semibold text-gray-800 mb-2">
+        Amount
+      </h4>
+
+      <p className="text-2xl font-bold text-green-600">
+        Rs {order.amount }
+      </p>
+    </div>
+
+    {/* Status + Invoice */}
+    <div className="flex flex-col gap-5">
+      
+      <div>
+        <h4 className="font-semibold text-gray-800 mb-2">
+          Order Status
+        </h4>
+
+        <select
+          value={order.status}
+          onChange={updateOrderStatus(order)}
+          className="
+            w-full
+            border border-gray-300
+            rounded-xl
+            px-3 py-2
+            bg-white
+            focus:outline-none
+            focus:ring-2
+            focus:ring-green-500
+          "
+        >
+          <option value="Pending">Pending</option>
+          <option value="Dispatch">Dispatch</option>
+          <option value="Delivery">Delivery</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div>
+        <h4 className="font-semibold text-gray-800 mb-2">
+          Invoice
+        </h4>
+
+        {order.invoiceUrl ? (
+          <a
+            href={order.invoiceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              inline-flex items-center gap-2
+              bg-gradient-to-r
+              from-green-500
+              to-emerald-600
+              hover:from-green-600
+              hover:to-emerald-700
+              text-white
+              px-4 py-2
+              rounded-xl
+              shadow-md
+              hover:shadow-lg
+              transition-all duration-300
+              text-sm font-medium
+            "
+          >
+            <FileText size={16} />
+            Download Invoice
+          </a>
+        ) : (
+          <span
+            className="
+              inline-flex
+              px-4 py-2
+              rounded-xl
+              bg-gray-100
+              text-gray-500
+              text-sm
+            "
+          >
+            Not Available
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+))}
           </div>
         </div>
-      {/* )} */}
-      {/* <Footer /> */}
     </div>
   );
 }
