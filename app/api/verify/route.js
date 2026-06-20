@@ -189,84 +189,6 @@ import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
 //   }
 // }
 
-// not working in live 
-// export async function POST(req) {
-//   try {
-//     await connectDB();
-
-//     const {
-//       razorpay_order_id,
-//       razorpay_payment_id,
-//       razorpay_signature,
-//     } = await req.json();
-
-//     const body =
-//       razorpay_order_id + "|" + razorpay_payment_id;
-
-//     const expectedSignature = crypto
-//       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-//       .update(body)
-//       .digest("hex");
-
-//     if (expectedSignature !== razorpay_signature) {
-//       return Response.json({ success: false }, { status: 400 });
-//     }
-
-//     const order = await Order.findOneAndUpdate(
-//   { razorpayOrderId: razorpay_order_id },
-//   {
-//     paymentStatus: "PAID",
-//     razorpayPaymentId: razorpay_payment_id,
-//     razorpaySignature: razorpay_signature,
-//   },
-//   { new: true }
-// ).populate("items.product"); // 🔥 FIX
-// console.log("ORDER:", razorpay_order_id);
-// console.log("PAYMENT:", razorpay_payment_id);
-// console.log("SIGNATURE:", razorpay_signature);
-// console.log("EXPECTED:", expectedSignature);
-//    if (!order) {
-//   throw new Error("Order not found");
-// }
-
-// const user = await User.findById(order.userId);
-// const address = await Address.findById(order.address);
-
-// const invoiceNumber = "INV-" + Date.now();
-
-// order.invoiceNumber = invoiceNumber;
-// await order.save();
-
-// const invoicePath = await generateInvoice(
-//   order,
-//   user,
-//   address,
-//   invoiceNumber
-// );
-
-// order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
-// await order.save();
-
-// try {
-//   await sendInvoiceEmail(
-//     user.email,
-//     invoicePath,
-//     invoiceNumber
-//   );
-// } catch (err) {
-//   console.error("Email Error:", err);
-// }
-
-// return Response.json({ success: true });
-//   } catch (error) {
-//     return Response.json(
-//       { success: false, message: error.message },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-
 export async function POST(req) {
   try {
     await connectDB();
@@ -277,7 +199,8 @@ export async function POST(req) {
       razorpay_signature,
     } = await req.json();
 
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const body =
+      razorpay_order_id + "|" + razorpay_payment_id;
 
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -288,27 +211,50 @@ export async function POST(req) {
       return Response.json({ success: false }, { status: 400 });
     }
 
-    const order = await Order.findOne({
-      razorpayOrderId: razorpay_order_id,
-    });
+    const order = await Order.findOneAndUpdate(
+  { razorpayOrderId: razorpay_order_id },
+  {
+    paymentStatus: "PAID",
+    razorpayPaymentId: razorpay_payment_id,
+    razorpaySignature: razorpay_signature,
+  },
+  { new: true }
+).populate("items.product"); // 🔥 FIX
 
-    if (!order) {
-      return Response.json(
-        { success: false, message: "Order not found" },
-        { status: 404 }
-      );
-    }
+   if (!order) {
+  throw new Error("Order not found");
+}
 
-    order.paymentStatus = "PAID";
-    order.razorpayPaymentId = razorpay_payment_id;
-    order.razorpaySignature = razorpay_signature;
+const user = await User.findById(order.userId);
+const address = await Address.findById(order.address);
 
-    await order.save();
+const invoiceNumber = "INV-" + Date.now();
 
-    return Response.json({ success: true });
+order.invoiceNumber = invoiceNumber;
+await order.save();
 
+const invoicePath = await generateInvoice(
+  order,
+  user,
+  address,
+  invoiceNumber
+);
+
+order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
+await order.save();
+
+try {
+  await sendInvoiceEmail(
+    user.email,
+    invoicePath,
+    invoiceNumber
+  );
+} catch (err) {
+  console.error("Email Error:", err);
+}
+
+return Response.json({ success: true });
   } catch (error) {
-    console.log("VERIFY ERROR:", error);
     return Response.json(
       { success: false, message: error.message },
       { status: 500 }
