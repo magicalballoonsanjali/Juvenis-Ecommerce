@@ -220,7 +220,10 @@ export async function POST(req) {
   },
   { new: true }
 ).populate("items.product"); // 🔥 FIX
-
+console.log("ORDER:", razorpay_order_id);
+console.log("PAYMENT:", razorpay_payment_id);
+console.log("SIGNATURE:", razorpay_signature);
+console.log("EXPECTED:", expectedSignature);
    if (!order) {
   throw new Error("Order not found");
 }
