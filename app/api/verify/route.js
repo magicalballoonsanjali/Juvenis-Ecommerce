@@ -63,8 +63,12 @@ import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
 
 // working in local not in live
 export async function POST(req) {
+  
+  console.log("verify start")
   try {
     await connectDB();
+
+    console.log("DB CONNECTED");
 
     const {
       razorpay_order_id,
@@ -72,21 +76,26 @@ export async function POST(req) {
       razorpay_signature,
     } = await req.json();
 
+console.log("BODY RECEIVED");
+
+console.log("PAYMENT IDS RECEIVED");
+
     const body =
       razorpay_order_id + "|" + razorpay_payment_id;
+
+console.log("CREATING SIGNATURE");
 
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body)
       .digest("hex");
 
+console.log("SIGNATURE CREATED");
     if (expectedSignature !== razorpay_signature) {
       return Response.json({ success: false }, { status: 400 });
     }
 
-  console.log("VERIFY START");
-
-const order = await Order.findOneAndUpdate(
+    const order = await Order.findOneAndUpdate(
   { razorpayOrderId: razorpay_order_id },
   {
     paymentStatus: "PAID",
@@ -94,17 +103,19 @@ const order = await Order.findOneAndUpdate(
     razorpaySignature: razorpay_signature,
   },
   { new: true }
-).populate("items.product");
+).populate("items.product"); // 🔥 FIX
 
-console.log("ORDER FOUND", !!order);
+   if (!order) {
+  throw new Error("Order not found");
+}
 
 const user = await User.findById(order.userId);
-console.log("USER FOUND", !!user);
-
 const address = await Address.findById(order.address);
-console.log("ADDRESS FOUND", !!address);
 
-console.log("GENERATING PDF");
+const invoiceNumber = "INV-" + Date.now();
+
+order.invoiceNumber = invoiceNumber;
+await order.save();
 
 const invoicePath = await generateInvoice(
   order,
@@ -113,17 +124,19 @@ const invoicePath = await generateInvoice(
   invoiceNumber
 );
 
-console.log("PDF GENERATED", invoicePath);
+order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
+await order.save();
 
-console.log("SENDING EMAIL");
-
-await sendInvoiceEmail(
-  user.email,
-  invoicePath,
-  invoiceNumber
-);
-
-console.log("EMAIL SENT");
+try {
+  await sendInvoiceEmail(
+    user.email,
+    invoicePath,
+    invoiceNumber
+  );
+  
+} catch (err) {
+  console.error("Email Error:", err);
+}
 
 return Response.json({ success: true });
   } catch (error) {
