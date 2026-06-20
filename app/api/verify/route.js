@@ -84,7 +84,9 @@ export async function POST(req) {
       return Response.json({ success: false }, { status: 400 });
     }
 
-    const order = await Order.findOneAndUpdate(
+  console.log("VERIFY START");
+
+const order = await Order.findOneAndUpdate(
   { razorpayOrderId: razorpay_order_id },
   {
     paymentStatus: "PAID",
@@ -92,19 +94,17 @@ export async function POST(req) {
     razorpaySignature: razorpay_signature,
   },
   { new: true }
-).populate("items.product"); // 🔥 FIX
+).populate("items.product");
 
-   if (!order) {
-  throw new Error("Order not found");
-}
+console.log("ORDER FOUND", !!order);
 
 const user = await User.findById(order.userId);
+console.log("USER FOUND", !!user);
+
 const address = await Address.findById(order.address);
+console.log("ADDRESS FOUND", !!address);
 
-const invoiceNumber = "INV-" + Date.now();
-
-order.invoiceNumber = invoiceNumber;
-await order.save();
+console.log("GENERATING PDF");
 
 const invoicePath = await generateInvoice(
   order,
@@ -113,18 +113,17 @@ const invoicePath = await generateInvoice(
   invoiceNumber
 );
 
-order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
-await order.save();
+console.log("PDF GENERATED", invoicePath);
 
-try {
-  await sendInvoiceEmail(
-    user.email,
-    invoicePath,
-    invoiceNumber
-  );
-} catch (err) {
-  console.error("Email Error:", err);
-}
+console.log("SENDING EMAIL");
+
+await sendInvoiceEmail(
+  user.email,
+  invoicePath,
+  invoiceNumber
+);
+
+console.log("EMAIL SENT");
 
 return Response.json({ success: true });
   } catch (error) {
