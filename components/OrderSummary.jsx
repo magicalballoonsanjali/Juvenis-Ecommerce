@@ -301,40 +301,75 @@ const [step, setStep] = useState("");
         description: "Order Payment",
         order_id: razorpayOrder.id,
 
-        handler: async function (response) {
-          setLoading(true); // 👈 SHOW LOADER IMMEDIATELY
-  setStep("Verifying payment...");
+//         handler: async function (response) {
+//           setLoading(true); // 👈 SHOW LOADER IMMEDIATELY
+//   setStep("Verifying payment...");
+//   try {
+//      setStep("Creating invoice...");
+//     const verifyRes = await axios.post("/api/verify", {
+//       razorpay_order_id: response.razorpay_order_id,
+//       razorpay_payment_id: response.razorpay_payment_id,
+//       razorpay_signature: response.razorpay_signature,
+//       orderId: data.orderId, // 👈 must come from backend
+//     });
+//    setStep("Finalizing order...");
+
+//  if (verifyRes.data.success) {
+//   setStep("Generating invoice & sending email...");
+
+//   await axios.post("/api/post-payment", {
+//     orderId: verifyRes.data.orderId || data.orderId,
+//   });
+
+//   setStep("Done!");
+//   toast.success("Payment successful!");
+
+//   setCartItems({});
+//   router.push("/order-placed");
+// } else {
+//       setLoading(false);
+//       toast.error("Payment verification failed");
+//     }
+//   } catch (error) {
+//     toast.error("Payment verification error");
+//   }
+// },
+
+// try and error
+handler: async function (response) {
+  console.log("RAZORPAY RESPONSE:", response);
+
+  const payload = {
+    razorpay_order_id: response.razorpay_order_id,
+    razorpay_payment_id: response.razorpay_payment_id,
+    razorpay_signature: response.razorpay_signature,
+  };
+
+  if (!payload.razorpay_payment_id || !payload.razorpay_signature) {
+    toast.error("Invalid payment response from Razorpay");
+    return;
+  }
+
   try {
-     setStep("Creating invoice...");
-    const verifyRes = await axios.post("/api/verify", {
-      razorpay_order_id: response.razorpay_order_id,
-      razorpay_payment_id: response.razorpay_payment_id,
-      razorpay_signature: response.razorpay_signature,
-      orderId: data.orderId, // 👈 must come from backend
-    });
-   setStep("Finalizing order...");
+    const verifyRes = await axios.post("/api/verify", payload);
 
- if (verifyRes.data.success) {
-  setStep("Generating invoice & sending email...");
+    console.log("VERIFY RESPONSE:", verifyRes.data);
 
-  await axios.post("/api/post-payment", {
-    orderId: verifyRes.data.orderId || data.orderId,
-  });
+    if (verifyRes.data.success) {
+      await axios.post("/api/post-payment", {
+        orderId: data.orderId,
+      });
 
-  setStep("Done!");
-  toast.success("Payment successful!");
-
-  setCartItems({});
-  router.push("/order-placed");
-} else {
-      setLoading(false);
+      toast.success("Payment successful!");
+      router.push("/order-placed");
+    } else {
       toast.error("Payment verification failed");
     }
-  } catch (error) {
-    toast.error("Payment verification error");
+  } catch (err) {
+    console.log("VERIFY ERROR:", err);
+    toast.error("Verification error");
   }
 },
-
 
         theme: { color: "#009bf1" },
       };
