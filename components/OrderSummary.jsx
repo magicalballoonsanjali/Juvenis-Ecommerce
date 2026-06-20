@@ -314,12 +314,19 @@ const [step, setStep] = useState("");
     });
    setStep("Finalizing order...");
 
-    if (verifyRes.data.success) {
-      setStep("Done!");
-      toast.success("Payment successful!");
-      setCartItems({});
-      router.push("/order-placed");
-    } else {
+ if (verifyRes.data.success) {
+  setStep("Generating invoice & sending email...");
+
+  await axios.post("/api/post-payment", {
+    orderId: verifyRes.data.orderId || data.orderId,
+  });
+
+  setStep("Done!");
+  toast.success("Payment successful!");
+
+  setCartItems({});
+  router.push("/order-placed");
+} else {
       setLoading(false);
       toast.error("Payment verification failed");
     }
