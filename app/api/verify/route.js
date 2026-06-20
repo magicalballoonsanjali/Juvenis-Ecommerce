@@ -140,12 +140,27 @@ console.log("BEFORE PDF");
 order.invoiceNumber = invoiceNumber;
 await order.save();
 
-const invoicePath = await generateInvoice(
-  order,
-  user,
-  address,
-  invoiceNumber
-);
+try {
+  console.log("CALLING PDF GENERATOR");
+
+  const invoicePath =
+    await generateInvoice(
+      order,
+      user,
+      address
+    );
+
+  console.log(
+    "PDF GENERATED",
+    invoicePath
+  );
+} catch (err) {
+  console.error(
+    "PDF GENERATION FAILED"
+  );
+  console.error(err);
+  console.error(err.stack);
+}
 console.log("PDF GENERATED");
 
 order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
