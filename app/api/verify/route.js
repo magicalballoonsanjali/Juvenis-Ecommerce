@@ -96,7 +96,9 @@ console.log("CHECKING SIGNATURE");
       return Response.json({ success: false }, { status: 400 });
     }
 console.log("SIGNATURE VERIFIED");
+
 console.log("BEFORE ORDER QUERY");
+
     const order = await Order.findOneAndUpdate(
   { razorpayOrderId: razorpay_order_id },
   {
@@ -108,8 +110,16 @@ console.log("BEFORE ORDER QUERY");
   
 );
 console.log("ORDER UPDATED");
-await order.populate("items.product"); // 🔥 FIX
-console.log("POPULATE COMPLETE");
+try {
+  await order.populate("items.product");
+  console.log("POPULATE COMPLETE");
+} catch (err) {
+  console.error("POPULATE ERROR");
+  console.error(err);
+  console.error(err.stack);
+  throw err;
+}
+
 console.log("ORDER QUERY COMPLETE");
 
    if (!order) {
