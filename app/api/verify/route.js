@@ -61,6 +61,83 @@ import Address from "../../../models/Address";
 import { generateInvoice } from "../../../lib/generateInvoice";
 import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
 
+// working in local not in live
+export async function POST(req) {
+  try {
+    await connectDB();
+
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    } = await req.json();
+
+    const body =
+      razorpay_order_id + "|" + razorpay_payment_id;
+
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      return Response.json({ success: false }, { status: 400 });
+    }
+
+    const order = await Order.findOneAndUpdate(
+  { razorpayOrderId: razorpay_order_id },
+  {
+    paymentStatus: "PAID",
+    razorpayPaymentId: razorpay_payment_id,
+    razorpaySignature: razorpay_signature,
+  },
+  { new: true }
+).populate("items.product"); // 🔥 FIX
+
+   if (!order) {
+  throw new Error("Order not found");
+}
+
+const user = await User.findById(order.userId);
+const address = await Address.findById(order.address);
+
+const invoiceNumber = "INV-" + Date.now();
+
+order.invoiceNumber = invoiceNumber;
+await order.save();
+
+const invoicePath = await generateInvoice(
+  order,
+  user,
+  address,
+  invoiceNumber
+);
+
+order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
+await order.save();
+
+try {
+  await sendInvoiceEmail(
+    user.email,
+    invoicePath,
+    invoiceNumber
+  );
+} catch (err) {
+  console.error("Email Error:", err);
+}
+
+return Response.json({ success: true });
+  } catch (error) {
+    return Response.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
+  }
+}
+
+
+
+
 // working
 // export async function POST(req) {
 //   try {
@@ -189,75 +266,3 @@ import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
 //   }
 // }
 
-export async function POST(req) {
-  try {
-    await connectDB();
-
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    } = await req.json();
-
-    const body =
-      razorpay_order_id + "|" + razorpay_payment_id;
-
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(body)
-      .digest("hex");
-
-    if (expectedSignature !== razorpay_signature) {
-      return Response.json({ success: false }, { status: 400 });
-    }
-
-    const order = await Order.findOneAndUpdate(
-  { razorpayOrderId: razorpay_order_id },
-  {
-    paymentStatus: "PAID",
-    razorpayPaymentId: razorpay_payment_id,
-    razorpaySignature: razorpay_signature,
-  },
-  { new: true }
-).populate("items.product"); // 🔥 FIX
-
-   if (!order) {
-  throw new Error("Order not found");
-}
-
-const user = await User.findById(order.userId);
-const address = await Address.findById(order.address);
-
-const invoiceNumber = "INV-" + Date.now();
-
-order.invoiceNumber = invoiceNumber;
-await order.save();
-
-const invoicePath = await generateInvoice(
-  order,
-  user,
-  address,
-  invoiceNumber
-);
-
-order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
-await order.save();
-
-try {
-  await sendInvoiceEmail(
-    user.email,
-    invoicePath,
-    invoiceNumber
-  );
-} catch (err) {
-  console.error("Email Error:", err);
-}
-
-return Response.json({ success: true });
-  } catch (error) {
-    return Response.json(
-      { success: false, message: error.message },
-      { status: 500 }
-    );
-  }
-}
