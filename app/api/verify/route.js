@@ -63,7 +63,7 @@ import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
 
 // working in local not in live
 export async function POST(req) {
-  
+
   console.log("verify start")
   try {
     await connectDB();
@@ -91,9 +91,11 @@ console.log("CREATING SIGNATURE");
       .digest("hex");
 
 console.log("SIGNATURE CREATED");
+console.log("CHECKING SIGNATURE");
     if (expectedSignature !== razorpay_signature) {
       return Response.json({ success: false }, { status: 400 });
     }
+console.log("SIGNATURE VERIFIED");
 
     const order = await Order.findOneAndUpdate(
   { razorpayOrderId: razorpay_order_id },
@@ -105,14 +107,21 @@ console.log("SIGNATURE CREATED");
   { new: true }
 ).populate("items.product"); // 🔥 FIX
 
+console.log("ORDER QUERY COMPLETE");
+
    if (!order) {
   throw new Error("Order not found");
 }
+console.log("ORDER FOUND", order._id);
 
 const user = await User.findById(order.userId);
+console.log("USER FOUND");
 const address = await Address.findById(order.address);
+console.log("ADDRESS FOUND");
 
 const invoiceNumber = "INV-" + Date.now();
+
+console.log("BEFORE PDF");
 
 order.invoiceNumber = invoiceNumber;
 await order.save();
@@ -123,6 +132,7 @@ const invoicePath = await generateInvoice(
   address,
   invoiceNumber
 );
+console.log("PDF GENERATED");
 
 order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
 await order.save();
@@ -133,6 +143,7 @@ try {
     invoicePath,
     invoiceNumber
   );
+  console.log("EMAIL SENT");
   
 } catch (err) {
   console.error("Email Error:", err);
