@@ -57,6 +57,7 @@ import connectDB from "../../../config/db";
 import Order from "../../../models/Order";
 import User from "../../../models/User";
 import Address from "../../../models/Address";
+import Product from "../../../models/Products";
 
 import { generateInvoice } from "../../../lib/generateInvoice";
 import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
