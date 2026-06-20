@@ -139,11 +139,11 @@ console.log("BEFORE PDF");
 
 order.invoiceNumber = invoiceNumber;
 await order.save();
-
+const invoicePath=null;
 try {
   console.log("CALLING PDF GENERATOR");
 
-  const invoicePath =
+  invoicePath =
     await generateInvoice(
       order,
       user,
