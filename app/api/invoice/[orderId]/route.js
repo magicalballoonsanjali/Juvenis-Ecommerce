@@ -14,12 +14,18 @@ export async function GET(
 ) {
   try {
     await connectDB();
+    const { orderId } = await params;
+  console.log("ORDER ID:", orderId);
 
     const order =
       await Order.findById(
-        params.orderId
+        orderId
       );
-
+      
+console.log(
+    "ORDER RESULT:",
+    order
+  );
     if (!order) {
       return Response.json(
         {
