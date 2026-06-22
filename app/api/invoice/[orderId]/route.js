@@ -6,6 +6,7 @@ import Order from "../../../../models/Order";
 import User from "../../../../models/User";
 import Address from "../../../../models/Address";
 
+
 import { generateInvoice } from "../../../../lib/generateInvoice";
 
 export async function GET(
@@ -21,7 +22,7 @@ export async function GET(
       await Order.findById(
         orderId
       );
-      
+
 console.log(
     "ORDER RESULT:",
     order
