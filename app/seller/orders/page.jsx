@@ -370,9 +370,9 @@ export default function SellerOrders() {
           Invoice
         </h4>
 
-        {order.invoiceUrl ? (
+        
           <a
-            href={order.invoiceUrl}
+            href={`/api/invoice/${order._id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -394,20 +394,7 @@ export default function SellerOrders() {
             <FileText size={16} />
             Download Invoice
           </a>
-        ) : (
-          <span
-            className="
-              inline-flex
-              px-4 py-2
-              rounded-xl
-              bg-gray-100
-              text-gray-500
-              text-sm
-            "
-          >
-            Not Available
-          </span>
-        )}
+        
       </div>
     </div>
   </div>

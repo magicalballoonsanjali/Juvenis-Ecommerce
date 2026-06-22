@@ -148,9 +148,9 @@ const MyOrders = () => {
                 
                 </div>
                   <span>
-                     {order.invoiceUrl ? (
+                      
           <a
-            href={order.invoiceUrl}
+            href={`/api/invoice/${order._id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -172,21 +172,7 @@ const MyOrders = () => {
            
             Download Invoice
           </a>
-        ) : (
-          <span
-            className="
-              inline-flex
-              px-4 py-2
-              rounded-xl
-              bg-gray-100
-              text-gray-500
-              text-md
-              font-medium
-            "
-          >
-            Not Available
-          </span>
-        )}
+        
                   </span>
               </div>
             ))}
