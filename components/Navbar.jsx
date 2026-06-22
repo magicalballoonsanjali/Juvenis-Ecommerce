@@ -127,6 +127,10 @@ const isSeller = user?.isSeller;
           <button onClick={() => routerNext.push("/wishlist")}>
             <Image className="w-4 h-4" src={assets.heart_icon} alt="heart_icon" />
           </button>
+          
+          <button onClick={() => routerNext.push("/cart")}>
+            <Image className="w-4 h-4" src={assets.cart_icon} alt="heart_icon" />
+          </button>
 
           {/* Custom Dropdown Menu */}
           <div className="relative">
