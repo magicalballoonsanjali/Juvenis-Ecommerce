@@ -30,7 +30,7 @@ const MyOrders = () => {
     try {
       const { data } = await axios.get(`/api/order/list?userId=${user._id}`);
       if (data.success) {
-        setOrders(data.orders.reverse());
+        setOrders(data.orders);
       }
     } catch (err) {
       toast.error(err.message);

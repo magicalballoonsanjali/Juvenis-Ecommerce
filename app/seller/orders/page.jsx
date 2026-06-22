@@ -193,7 +193,7 @@ export default function SellerOrders() {
     try {
       // GET all orders (no filtering by seller)
       const { data } = await axios.get(`/api/order/seller/orders?sellerId=${sellerId}`);
-      console.log(data)
+      // console.log(data)
       if (data.success) setOrders(data.orders);
       else toast.error(data.message);
     } catch (err) {

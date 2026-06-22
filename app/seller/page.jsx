@@ -23,7 +23,7 @@ const [sellerId, setSellerId] = useState('');
     const id = localStorage.getItem("sellerId");
 
     const email = localStorage.getItem("sellerEmail");
-    console.log(email)
+    // console.log(email)
     
     if (!id || !email) {
       router.push("/seller/login");
