@@ -139,11 +139,12 @@ console.log("BEFORE PDF");
 
 order.invoiceNumber = invoiceNumber;
 await order.save();
-let invoicePath=null;
+let invoiceBuffer = null;
+
 try {
   console.log("CALLING PDF GENERATOR");
 
-  invoicePath =
+  invoiceBuffer =
     await generateInvoice(
       order,
       user,
@@ -152,7 +153,7 @@ try {
 
   console.log(
     "PDF GENERATED",
-    invoicePath
+    invoiceBuffer.length
   );
 } catch (err) {
   console.error(
@@ -161,17 +162,17 @@ try {
   console.error(err);
   console.error(err.stack);
 }
+
+
 console.log("PDF GENERATED");
 
-order.invoiceUrl = `/invoices/${invoiceNumber}.pdf`;
-await order.save();
 
 try {
-  await sendInvoiceEmail(
-    user.email,
-    invoicePath,
-    invoiceNumber
-  );
+ await sendInvoiceEmail(
+  user.email,
+  invoiceBuffer,
+  invoiceNumber
+);
   console.log("EMAIL SENT");
   
 } catch (err) {
