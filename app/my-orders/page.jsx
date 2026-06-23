@@ -1,4 +1,5 @@
 "use client";
+
 import React, { Suspense, useEffect, useState } from "react";
 import { assets } from "../../assets/juvenis-assets";
 import Image from "next/image";
@@ -10,11 +11,14 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Footer2 from "../../components/Footer2";
 import { FileText } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const MyOrders = () => {
   const { currency, user,userLoaded } = useAppContext();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter()
 
  useEffect(() => {
   if (!userLoaded) return; // wait for user to load
@@ -59,8 +63,9 @@ const MyOrders = () => {
         ) : (
           <div className="max-w-5xl border-t border-gray-300 text-sm space-y-4">
             {orders.map((order, index) => (
+              <div key={index} onClick={() =>
+    router.push(`/my-orders/${order._id}`)}>
               <div
-                key={index}
                 className="flex flex-col md:flex-row gap-5 justify-between p-5 border-b border-gray-300"
               >
                 {/* Product Summary */}
@@ -125,9 +130,11 @@ const MyOrders = () => {
                       className={`font-medium ${
                         order.status === "Cancelled"
                           ? "text-red-600"
-                          : order.status === "Dispatch"
+                          : order.status === "Dispatched"
                           ? "text-orange-500"
-                          : "text-green-600"
+                          : order.status === "Pending"
+                          ? "text-blue-500":
+                          "text-green-600"
                       }`}
                     >
                       {order.status || "Unknown"}
@@ -174,6 +181,7 @@ const MyOrders = () => {
           </a>
         
                   </span>
+              </div>
               </div>
             ))}
           </div>
