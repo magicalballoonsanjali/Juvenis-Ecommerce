@@ -133,7 +133,23 @@ console.log("USER FOUND");
 const address = await Address.findById(order.address);
 console.log("ADDRESS FOUND");
 
-const invoiceNumber = "INV-" + Date.now();
+// const invoiceNumber = "INV-" + Date.now();
+const lastOrder = await Order.findOne({
+  invoiceNumber: /^JI\d+$/
+}).sort({ invoiceNumber: -1 });
+
+let invoiceNumber = "JI001";
+
+if (lastOrder?.invoiceNumber) {
+  const lastNumber = parseInt(
+    lastOrder.invoiceNumber.replace("JI", ""),
+    10
+  );
+
+  invoiceNumber =
+    "JI" +
+    String(lastNumber + 1).padStart(3, "0");
+}
 
 console.log("BEFORE PDF");
 
