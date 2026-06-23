@@ -11,7 +11,7 @@ import {
 
 const Footer2 = () => {
   return (
-    <footer className="bg-[#fafafa] border-t border-gray-200 mt-20 ">
+    <footer className="bg-[#fafafa] border-t border-gray-200 mt-10 ">
       
       {/* Main Footer */}
       <div className="max-w-8xl mx-auto px-6 md:px-8 lg:px-10 py-14">

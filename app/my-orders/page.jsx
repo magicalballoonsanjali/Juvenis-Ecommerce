@@ -64,7 +64,14 @@ const MyOrders = () => {
           <div className="max-w-5xl border-t border-gray-300 text-sm space-y-4">
             {orders.map((order, index) => (
               <div key={index} onClick={() =>
-    router.push(`/my-orders/${order._id}`)}>
+    router.push(`/my-orders/${order._id}`)} className=" cursor-pointer
+    rounded-2xl
+    transition-all
+    duration-300
+    hover:bg-gray-50
+    hover:shadow-md
+    hover:scale-[1.01]
+    active:scale-[0.99]">
               <div
                 className="flex flex-col md:flex-row gap-5 justify-between p-5 border-b border-gray-300"
               >
