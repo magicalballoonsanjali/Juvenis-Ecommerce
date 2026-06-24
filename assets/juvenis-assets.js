@@ -78,6 +78,7 @@ import Mobile_Home_banner_2 from "./Mobile_Banner/Mobile_Home_banner_2.jpg"
 import Mobile_Home_banner_3 from "./Mobile_Banner/Mobile_Home_banner_3.jpg"
 import Mobile_Home_banner_1 from "./Mobile_Banner/Mobile_Home_banner_1.jpg"
 import logo from "./logo.jpeg"
+import sortlogo from "./sortlogo.png"
 
 export const assets = {
   acansis_cream1_jpeg,
@@ -108,6 +109,7 @@ Mobile_Home_banner_1,
 Mobile_Home_banner_2,
 Mobile_Home_banner_3,
 logo,
+sortlogo,
 
   search_icon,
   user_icon,

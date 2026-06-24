@@ -78,11 +78,11 @@ const MyOrders = () => {
                 {/* Product Summary */}
                 <div className="flex-1 flex gap-5 max-w-80">
                   <Image
-                    className="w-16 h-16 object-cover"
-                    src={assets.parcel_icon}
+                    className=" h-16 object-cover"
+                    src={assets.sortlogo}
                     alt="box_icon"
-                    width={64}
-                    height={64}
+                    width={55}
+                    height={55}
                   />
                   <div className="flex flex-col gap-1">
                     <span className="font-medium text-base space-y-1">
