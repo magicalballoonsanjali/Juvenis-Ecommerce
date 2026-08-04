@@ -15,36 +15,35 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const MyOrders = () => {
-  const { currency, user,userLoaded } = useAppContext();
+  const { currency, user, userLoaded } = useAppContext();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter()
+  const router = useRouter();
 
- useEffect(() => {
-  if (!userLoaded) return; // wait for user to load
+  useEffect(() => {
+    if (!userLoaded) return; // wait for user to load
 
-  const fetchOrders = async () => {
-
-    // if(!user) {setLoading(false); return}
-    if (!user?._id) {
-      toast.error("Please log in first");
-      setLoading(false);
-      return;
-    }
-    try {
-      const { data } = await axios.get(`/api/order/list?userId=${user._id}`);
-      if (data.success) {
-        setOrders(data.orders);
+    const fetchOrders = async () => {
+      // if(!user) {setLoading(false); return}
+      if (!user?._id) {
+        toast.error("Please log in first");
+        setLoading(false);
+        return;
       }
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        const { data } = await axios.get(`/api/order/list?userId=${user._id}`);
+        if (data.success) {
+          setOrders(data.orders);
+        }
+      } catch (err) {
+        toast.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchOrders();
-}, [user,userLoaded]);
+    fetchOrders();
+  }, [user, userLoaded]);
 
   return (
     <>
@@ -63,111 +62,111 @@ const MyOrders = () => {
         ) : (
           <div className="max-w-5xl border-t border-gray-300 text-sm space-y-4">
             {orders.map((order, index) => (
-              <div key={index} onClick={() =>
-    router.push(`/my-orders/${order._id}`)} className=" cursor-pointer
+              <div
+                key={index}
+                onClick={() => router.push(`/my-orders/${order._id}`)}
+                className=" cursor-pointer
     rounded-2xl
     transition-all
     duration-300
     hover:bg-gray-50
     hover:shadow-md
     hover:scale-[1.01]
-    active:scale-[0.99]">
-              <div
-                className="flex flex-col md:flex-row gap-5 justify-between p-5 border-b border-gray-300"
+    active:scale-[0.99]"
               >
-                {/* Product Summary */}
-                <div className="flex-1 flex gap-5 max-w-80">
-                  <Image
-                    className=" h-16 object-cover"
-                    src={assets.sortlogo}
-                    alt="box_icon"
-                    width={55}
-                    height={55}
-                  />
-                  <div className="flex flex-col gap-1">
-                    <span className="font-medium text-base space-y-1">
-                      {order.items
-                        ?.map(
-                          (item,index) =>(
-                            <p key={index} >
-                              {item.product?.name || "Product"} x {
-                              item.quantity
-                            }
-                            </p>
-                          )
-                        )
-                        }
-                    </span>
-                    <span className="text-sm text-gray-600">Items: {order.items?.length || 0}</span>
+                <div className="flex flex-col md:flex-row gap-5 justify-between p-5 border-b border-gray-300">
+                  {/* Product Summary */}
+                  <div className="flex-1 flex gap-5 max-w-80">
+                    <Image
+                      className=" h-16 object-cover"
+                      src={assets.sortlogo}
+                      alt="box_icon"
+                      width={55}
+                      height={55}
+                    />
+                    <div className="flex flex-col gap-1">
+                      <span className="font-medium text-base space-y-1">
+                        {order.items?.map((item, index) => (
+                          <p key={index}>
+                            {item.product?.name || "Product"} x {item.quantity}
+                          </p>
+                        ))}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        Items: {order.items?.length || 0}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Address */}
-                <div className="text-gray-700">
-                  <p className="text-sm">
-                    <span className="font-medium">
-                      {order.address?.fullName || "No Name"}
-                    </span>
-                    <br />
-                    <span>{order.address?.area || "No Area"}</span>
-                    <br />
-                    <span>
-                      {`${order.address?.city || "City"}, ${
-                        order.address?.state || "State"
-                      }`}
-                    </span>
-                    <br />
-                    <span>{order.address?.phoneNumber || "No Phone"}</span>
+                  {/* Address */}
+                  <div className="text-gray-700">
+                    <p className="text-sm">
+                      <span className="font-medium">
+                        {order.address?.fullName || "No Name"}
+                      </span>
+                      <br />
+                      <span>{order.address?.area || "No Area"}</span>
+                      <br />
+                      <span>
+                        {`${order.address?.city || "City"}, ${
+                          order.address?.state || "State"
+                        }`}
+                      </span>
+                      <br />
+                      <span>{order.address?.phoneNumber || "No Phone"}</span>
+                    </p>
+                  </div>
+
+                  {/* Amount */}
+                  <p className="font-medium my-auto">
+                    {currency} {order.amount}
                   </p>
-                </div>
 
-                {/* Amount */}
-                <p className="font-medium my-auto">
-                  {currency} {order.amount }
-                </p>
-
-                {/* Status */}
-                <div className="flex flex-col gap-1 text-sm">
-                  <span>
-                    Date: {new Date(order.date).toLocaleDateString()}
-                  </span>
-                  <span>
-                    Order Status:{" "}
-                    <span
-                      className={`font-medium ${
-                        order.status === "Cancelled"
-                          ? "text-red-600"
-                          : order.status === "Dispatched"
-                          ? "text-orange-500"
-                          : order.status === "Pending"
-                          ? "text-blue-500":
-                          "text-green-600"
-                      }`}
-                    >
-                      {order.status || "Unknown"}
+                  {/* Status */}
+                  <div className="flex flex-col gap-1 text-sm">
+                    <span>
+                      Date: {new Date(order.date).toLocaleDateString()}
                     </span>
-                  </span>
-                  <span>
-                    Payment Status:{" "}
-                    <span
-                      className={
-                        order.paymentStatus === "PAID"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }
-                    >
-                      {order.paymentStatus || "Pending"}
+                    <span>
+                      Order Status:{" "}
+                      <span
+                        className={`font-medium ${
+                          order.paymentStatus !== "PAID"
+                            ? "text-yellow-600"
+                            : order.status === "Cancelled"
+                            ? "text-red-600"
+                            : order.status === "Dispatched"
+                            ? "text-orange-500"
+                            : order.status === "Pending"
+                            ? "text-blue-500"
+                            : "text-green-600"
+                        }`}
+                      >
+                        {order.paymentStatus !== "PAID"
+                          ? "Order Saved"
+                          : order.status || "Unknown"}
+                      </span>
                     </span>
-                  </span>
-                
-                </div>
+                    <span>
+                      Payment Status:{" "}
+                      <span
+                        className={
+                          order.paymentStatus === "PAID"
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }
+                      >
+                        {order.paymentStatus || "Pending"}
+                      </span>
+                    </span>
+                  </div>
                   <span>
-                      
-          <a
-            href={`/api/invoice/${order._id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
+                    {order.paymentStatus === "PAID" ? (
+                      <a
+                        href={`/api/invoice/${order._id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="
               inline-flex items-center gap-2
               bg-gradient-to-r
               from-green-500
@@ -182,13 +181,33 @@ const MyOrders = () => {
               transition-all duration-300
               text-sm font-medium
             "
-          >
-           
-            Download Invoice
-          </a>
-        
+                      >
+                        Download Invoice
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => continuePayment(order._id)}
+                        className="
+      inline-flex items-center gap-2
+      bg-gradient-to-r
+      from-blue-500
+      to-indigo-600
+      hover:from-blue-600
+      hover:to-indigo-700
+      text-white
+      px-4 py-2
+      rounded-xl
+      shadow-md
+      hover:shadow-lg
+      transition-all duration-300
+      text-sm font-medium
+    "
+                      >
+                        Continue Payment
+                      </button>
+                    )}
                   </span>
-              </div>
+                </div>
               </div>
             ))}
           </div>

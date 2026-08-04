@@ -347,6 +347,7 @@ export default function SellerOrders() {
 
         <select
           value={order.status}
+           disabled={order.paymentStatus !== "PAID"}
           onChange={updateOrderStatus(order)}
           className={`
             w-full
@@ -356,8 +357,10 @@ export default function SellerOrders() {
     focus:outline-none
     focus:ring-2
             
-              ${
-      order.status === "Pending"
+             ${
+      order.paymentStatus !== "PAID"
+        ? "bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed"
+        : order.status === "Pending"
         ? "bg-yellow-100 text-yellow-800 border-yellow-300"
         : order.status === "Dispatched"
         ? "bg-blue-100 text-blue-800 border-blue-300"
@@ -373,36 +376,54 @@ export default function SellerOrders() {
           <option value="Cancelled">Cancelled</option>
         </select>
       </div>
+
+
       <div>
         <h4 className="font-semibold text-gray-800 mb-2">
           Invoice
         </h4>
-
-        
-          <a
-            href={`/api/invoice/${order._id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              inline-flex items-center gap-2
-              bg-gradient-to-r
-              from-green-500
-              to-emerald-600
-              hover:from-green-600
-              hover:to-emerald-700
-              text-white
-              px-4 py-2
-              rounded-xl
-              shadow-md
-              hover:shadow-lg
-              transition-all duration-300
-              text-sm font-medium
-            "
-          >
-            <FileText size={16} />
-            Download Invoice
-          </a>
-        
+         {order.paymentStatus === "PAID" ? (
+  <a
+    href={`/api/invoice/${order._id}`}
+    target="_blank"
+    
+    rel="noopener noreferrer"
+    className="
+      inline-flex items-center gap-2
+      bg-gradient-to-r
+      from-green-500
+      to-emerald-600
+      hover:from-green-600
+      hover:to-emerald-700
+      text-white
+      px-4 py-2
+      rounded-xl
+      shadow-md
+      hover:shadow-lg
+      transition-all duration-300
+      text-sm font-medium
+    "
+  >
+    <FileText size={16} />
+    Download Invoice
+  </a>
+) : (
+  <button
+    disabled
+    className="
+      inline-flex items-center gap-2
+      bg-gray-300
+      text-gray-500
+      px-4 py-2
+      rounded-xl
+      cursor-not-allowed
+      text-sm font-medium
+    "
+  >
+    <FileText size={16} />
+   Download Invoice
+  </button>
+)}
       </div>
     </div>
   </div>

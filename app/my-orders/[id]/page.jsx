@@ -39,7 +39,79 @@ const orderSteps = {
   Dispatched: 1,
   Delivered: 2,
 };
+const loadRazorpay = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
 
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+
+    document.body.appendChild(script);
+  });
+};
+const continuePayment = async (orderId) => {
+  try {
+    const loaded = await loadRazorpay();
+
+    if (!loaded) {
+      return toast.error("Failed to load Razorpay");
+    }
+
+    const { data } = await axios.post("/api/payment/retry", {
+      orderId,
+    });
+
+    if (!data.success) {
+      return toast.error(data.message);
+    }
+
+    const options = {
+      key: data.key,
+      amount: data.razorpayOrder.amount,
+      currency: data.razorpayOrder.currency,
+      name: "Juvenis",
+      description: "Order Payment",
+      order_id: data.razorpayOrder.id,
+
+      handler: async function (response) {
+        try {
+          const verifyRes = await axios.post("/api/verify", {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+
+          if (verifyRes.data.success) {
+            toast.success("Payment successful");
+
+            // Refresh orders
+            getUserOrders();
+          } else {
+            toast.error("Payment verification failed");
+          }
+        } catch (err) {
+          toast.error("Verification failed");
+        }
+      },
+
+      modal: {
+        ondismiss: () => {
+          toast("Payment cancelled.");
+        },
+      },
+
+      theme: {
+        color: "#009bf1",
+      },
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  } catch (err) {
+    toast.error(err.response?.data?.message || err.message);
+  }
+};
 const currentStep =
   orderSteps[order.status] ?? -1;       
   return (
@@ -56,7 +128,7 @@ const currentStep =
         </h1>
 
         <p className="text-gray-500 mt-2">
-          Invoice No: {order.invoiceNumber}
+          {order.paymentStatus === "PAID" ? <> Invoice No: {order.invoiceNumber}</> : <> </>}
         </p>
 
         <p className="text-gray-500 break-all">
@@ -65,26 +137,51 @@ const currentStep =
       </div>
       {/* Invoice Button */}
       <div className="text-center">
-        <a
-          href={`/api/invoice/${order._id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            inline-flex
-            items-center
-            gap-2
-            bg-green-600
-            hover:bg-green-700
-            text-white
-            px-6
-            py-3
-            rounded-xl
-            font-medium
-            transition
-          "
-        >
-          Download Invoice
-        </a>
+        {order.paymentStatus === "PAID" ? (
+  <a
+    href={`/api/invoice/${order._id}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="
+      inline-flex items-center gap-2
+      bg-gradient-to-r
+      from-green-500
+      to-emerald-600
+      hover:from-green-600
+      hover:to-emerald-700
+      text-white
+      px-4 py-2
+      rounded-xl
+      shadow-md
+      hover:shadow-lg
+      transition-all duration-300
+      text-sm font-medium
+    "
+  >
+    Download Invoice
+  </a>
+) : (
+  <button
+    onClick={() => continuePayment(order._id)}
+    className="
+      inline-flex items-center gap-2
+      bg-gradient-to-r
+      from-blue-500
+      to-indigo-600
+      hover:from-blue-600
+      hover:to-indigo-700
+      text-white
+      px-4 py-2
+      rounded-xl
+      shadow-md
+      hover:shadow-lg
+      transition-all duration-300
+      text-sm font-medium
+    "
+  >
+    Continue Payment
+  </button>
+)}
       </div>
 </div>
       {/* Status Section */}

@@ -302,6 +302,7 @@ const [step, setStep] = useState("");
         order_id: razorpayOrder.id,
 
         handler: async function (response) {
+
           setLoading(true); // 👈 SHOW LOADER IMMEDIATELY
   setStep("Verifying payment...");
   try {
@@ -327,6 +328,17 @@ const [step, setStep] = useState("");
     toast.error("Payment verification error");
   }
 },
+
+  modal: {
+    ondismiss: function () {
+      toast.success("Your order has been saved. Continue payment from My Orders to place your order.");
+
+      // Optional: Redirect to My Orders after 2 seconds
+      setTimeout(() => {
+        router.push("/my-orders");
+      }, 1000);
+    },
+  },
 
 
         theme: { color: "#009bf1" },
@@ -434,8 +446,9 @@ const [step, setStep] = useState("");
         <div className="space-y-4">
           <div className="flex justify-between text-base font-medium">
             <p className="uppercase text-gray-600">
-              Items {getCartCount()}
+              Items 
             </p>
+            <p>{getCartCount()}</p>
           </div>
 
           <div className="flex justify-between">
@@ -444,12 +457,13 @@ const [step, setStep] = useState("");
           </div>
 
           <div className="flex justify-between">
-            <p className="text-gray-600">Tax (2%)</p>
+            <p className="text-gray-600">GST</p>
             <p className="font-medium text-gray-800">Included</p>
           </div>
 
           <div className="flex justify-between text-lg font-medium border-t pt-3">
-            <p>Total</p>
+            <p>Total </p>
+            <p>{getCartAmount()}</p>
           </div>
         </div>
       </div>
