@@ -298,9 +298,9 @@ export default function SellerOrders() {
           ))}
         </div>
 
-        <span className="text-sm font-medium text-gray-500">
-          Items : {order.items.length}
-        </span>
+       <span className="text-sm font-medium text-gray-500">
+  Items : {order.items.reduce((total, item) => total + item.quantity, 0)}
+</span>
       </div>
     </div>
 
