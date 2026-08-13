@@ -19,6 +19,7 @@ const AddAddress = () => {
         email:'',
         phoneNumber: '',
         pincode: '',
+        landmark:'',
         area: '',
         city: '',
         state: '',
@@ -35,6 +36,7 @@ const AddAddress = () => {
         email: address.email,
         phoneNumber: address.phoneNumber,
         pincode: address.pincode,
+        landmark:address.landmark,
         area: address.area,
         city: address.city,
         state: address.state,
@@ -147,6 +149,13 @@ const STATES = [
                             placeholder="Pin code"
                             onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
                             value={address.pincode}
+                        />
+                        <input
+                            className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500"
+                            type="text"
+                            placeholder="Landmark"
+                            onChange={(e) => setAddress({ ...address, landmark: e.target.value })}
+                            value={address.landmark}
                         />
                         <textarea
                             className="px-2 py-2.5 focus:border-[#009bf1] transition border border-gray-500/30 rounded outline-none w-full text-gray-500 resize-none"

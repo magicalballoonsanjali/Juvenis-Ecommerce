@@ -8,13 +8,14 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const router = useRouter();
 
-  const handleLogout = () => {
-    // Clear seller session
-    localStorage.removeItem("sellerEmail");
+    const handleLogout = () => {
+    // Remove login information
     localStorage.removeItem("sellerId");
+    localStorage.removeItem("sellerEmail");
+    localStorage.removeItem("sellerRole");
 
-    // Redirect to login
-    router.push("/seller/login");
+    // Go to login
+    router.replace("/seller/login");
   };
 
   return (

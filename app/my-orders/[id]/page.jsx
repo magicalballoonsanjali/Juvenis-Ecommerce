@@ -323,6 +323,9 @@ const currentStep =
         <p>
           {order.address?.area}
         </p>
+        <p>
+          {order.address?.landmark}
+        </p>
 
         <p>
           {order.address?.city},{" "}

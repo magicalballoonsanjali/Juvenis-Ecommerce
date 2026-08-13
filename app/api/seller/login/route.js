@@ -1,46 +1,67 @@
 import { NextResponse } from "next/server";
+import Seller from "../../../../models/Seller";
 import connectDB from "../../../../config/db";
-import User from "../../../../models/User";
-
-export async function POST(req) {
-  console.log(req.method)
-  if (req.method !== "POST") {
-    return NextResponse.json({ success: false, message: "Method not allowed" });
-  }
-
+export async function POST(request) {
   try {
     await connectDB();
 
-    const { email } = await req.json();
+    const { email, password } = await request.json();
 
-    if (!email) {
-      return NextResponse.json({ success: false, message: "Email is required" });
+    if (!email || !password) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Email and password are required",
+        },
+        { status: 400 }
+      );
     }
 
-    // Find the user by email
-    const user = await User.findOne({ email });
+    const seller = await Seller.findOne({
+      email: email.toLowerCase(),
+    });
 
-    if (!user) {
-      return NextResponse.json({ success: false, message: "Email not found" });
+    if (!seller) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid email or password",
+        },
+        { status: 401 }
+      );
     }
 
-    // Check if user is a seller
-    if (!user.isSeller) {
-      return NextResponse.json({ success: false, message: "User is not a seller" });
+    if (seller.password !== password) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid email or password",
+        },
+        { status: 401 }
+      );
     }
 
-    // Login successful
     return NextResponse.json({
       success: true,
       message: "Login successful",
+
       seller: {
-        _id: user._id,
-        email: user.email,
-        name: user.name,
+        _id: seller._id.toString(),
+        name: seller.name,
+        email: seller.email,
+        role: seller.role,
       },
     });
+
   } catch (error) {
-    console.error("Seller login error:", error);
-    return NextResponse.json({ success: false, message: error.message });
+    console.error("Seller Login Error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Something went wrong",
+      },
+      { status: 500 }
+    );
   }
 }

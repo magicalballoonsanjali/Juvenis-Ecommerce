@@ -43,21 +43,52 @@ export async function PATCH(req) {
   try {
     await connectDB();
 
-    const { orderId, status, sellerId } = await req.json();
-    if (!orderId || !sellerId) {
-      return NextResponse.json({ success: false, message: "orderId and sellerId are required" });
+    const {
+      orderId,
+      status,
+    } = await req.json();
+
+    console.log("PATCH REQUEST");
+    console.log("Order ID:", orderId);
+    console.log("Status:", status);
+
+    if (!orderId || !status) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Order ID and status are required",
+        },
+        { status: 400 }
+      );
     }
 
-    const order = await Order.findById(orderId).populate("userId");
-    if (!order) return NextResponse.json({ success: false, message: "Order not found" });
+    const order = await Order.findById(orderId);
 
-    
+    if (!order) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Order not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    // Update status
     order.status = status;
+
     await order.save();
 
-    // ✅ Send email to the user
-    const user = order.userId;
-    if (user && user.email) {
+    console.log("ORDER UPDATED:", order.status);
+
+    // ==============================
+    // SEND EMAIL TO CUSTOMER
+    // ==============================
+
+    const user = await User.findById(order.userId);
+
+    if (user?.email) {
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -66,29 +97,87 @@ export async function PATCH(req) {
         },
       });
 
-      await transporter.sendMail({
-        from: process.env.GMAIL_USER,
-        to: user.email,
-        subject: "Order Status Updated",
-        html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h2 style="color: #009bf1;">Hello ${user.name || "Customer"},</h2>
-            <p>Your order with ID <strong>${orderId}</strong> has been updated.</p>
-            <p><strong>Status:</strong> 
-              <span style="color:${status === "Cancelled" ? "red" : status === "Dispatch" ? "orange" : "green"};">
-                ${status}
-              </span>
-            </p>
-            <p>Thank you for shopping with us!</p>
-            <p style="color: #888;">- The Juvenis Team</p>
-          </div>
-        `,
-      }).catch(err => console.error("Email error:", err));
+      try {
+
+        await transporter.sendMail({
+          from: process.env.GMAIL_USER,
+          to: user.email,
+
+          subject: `Order Status Updated - ${order._id}`,
+
+          html: `
+            <div style="
+              font-family:Arial,sans-serif;
+              max-width:600px;
+              margin:auto;
+              padding:30px;
+              border:1px solid #eee;
+              border-radius:12px;
+            ">
+
+              <h2 style="color:#1893bf;">
+                Hello ${user.name || "Customer"},
+              </h2>
+
+              <p>
+                Your order status has been updated.
+              </p>
+
+              <p>
+                <strong>Order ID:</strong>
+                ${order._id}
+              </p>
+
+              <p>
+                <strong>New Status:</strong>
+                <span style="
+                  font-weight:bold;
+                  color:#1893bf;
+                ">
+                  ${status}
+                </span>
+              </p>
+
+              <p>
+                Thank you for shopping with Juvenis Innovations.
+              </p>
+
+            </div>
+          `,
+        });
+
+        console.log("CUSTOMER EMAIL SENT");
+
+      } catch (emailError) {
+
+        console.error(
+          "EMAIL ERROR:",
+          emailError
+        );
+
+        // Don't fail order update because email failed
+      }
     }
 
-    return NextResponse.json({ success: true, message: "Order status updated successfully" });
+    return NextResponse.json({
+      success: true,
+      message: "Order status updated successfully",
+      order,
+    });
+
   } catch (error) {
-    console.error("PATCH /api/order/seller/orders error:", error);
-    return NextResponse.json({ success: false, message: error.message });
+
+    console.error(
+      "PATCH /api/order/seller/orders ERROR:",
+      error
+    );
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      { status: 500 }
+    );
   }
 }

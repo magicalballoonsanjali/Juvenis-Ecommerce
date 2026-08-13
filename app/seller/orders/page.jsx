@@ -173,9 +173,12 @@ import { useAppContext } from "../../../context/AppContext";
 import { assets } from "../../../assets/juvenis-assets";
 import Image from "next/image";
 import { FileText, Loader2Icon } from "lucide-react";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function SellerOrders() {
     const { user, isSeller } = useAppContext();
+    const router = useRouter()
   const [sellerId, setSellerId] = useState("")
   const [orders, setOrders] = useState([]);
   const [orderStatusLoaderId, setOrderStatusLoaderId] = useState("")  
@@ -239,7 +242,10 @@ export default function SellerOrders() {
           <div className="space-y-5">
             {orders.map((order, index) => (
              <div
-  key={index}
+ key={order._id}
+    onClick={() =>
+      router.push(`/seller/order-details/${order._id}`)
+    }
   className="
     bg-white
     border border-gray-200
@@ -316,6 +322,7 @@ export default function SellerOrders() {
         </p>
 
         <p>{order.address.area}</p>
+        <p>{order.address.landmark}</p>
 
         <p>
           {order.address.city},{" "}
@@ -425,6 +432,7 @@ export default function SellerOrders() {
   </button>
 )}
       </div>
+     
     </div>
   </div>
 </div>

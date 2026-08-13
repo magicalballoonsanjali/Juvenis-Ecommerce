@@ -105,7 +105,8 @@ const MyOrders = () => {
                         {order.address?.fullName || "No Name"}
                       </span>
                       <br />
-                      <span>{order.address?.area || "No Area"}</span>
+                      <span>{order.address?.area || "No Area"}</span><br/>
+                      <span>{order.address?.landmark || "No Area"}</span>
                       <br />
                       <span>
                         {`${order.address?.city || "City"}, ${

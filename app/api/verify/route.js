@@ -49,11 +49,10 @@
 
 
 // new for invoices 19 06 26
-export const runtime =
-  "nodejs";
+export const runtime = "nodejs";
 import crypto from "crypto";
 import connectDB from "../../../config/db";
-
+import nodemailer from "nodemailer";
 import Order from "../../../models/Order";
 import User from "../../../models/User";
 import Address from "../../../models/Address";
@@ -61,6 +60,15 @@ import Product from "../../../models/Products";
 
 import { generateInvoice } from "../../../lib/generateInvoice";
 import { sendInvoiceEmail } from "../../../lib/sendInvoiceEmail";
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 // working in local not in live
 export async function POST(req) {
@@ -193,6 +201,208 @@ try {
   
 } catch (err) {
   console.error("Email Error:", err);
+}
+
+// email to client 
+try {
+
+  await transporter.sendMail({
+
+    from: process.env.EMAIL_USER,
+
+    to: "magicalballoons.anjali@gmail.com",
+
+    subject: `🎉 New Order Received - Order #${order._id}`,
+
+    html: `
+      <div style="
+        max-width:700px;
+        margin:auto;
+        font-family:Arial,sans-serif;
+        background:#ffffff;
+        border:1px solid #e5e5e5;
+        border-radius:10px;
+        overflow:hidden;
+      ">
+
+        <div style="
+          background:#166534;
+          padding:20px;
+          text-align:center;
+        ">
+
+          <img
+            src="https://res.cloudinary.com/dufk70tw7/image/upload/v1785389928/logo_gpojyu.png"
+            alt="Juvenis Innovations"
+            width="220"
+            style="
+              max-width:220px;
+              height:auto;
+              display:block;
+              margin:0 auto;
+            "
+          />
+
+        </div>
+
+        <div style="padding:30px;">
+
+          <h2 style="color:#166534;">
+            🎉 New Order Received
+          </h2>
+
+          <p>
+            A new order has been successfully placed
+            and payment has been received.
+          </p>
+
+          <hr>
+
+          <h3>Order Details</h3>
+
+          <p>
+            <b>Order ID:</b> ${order._id}<br>
+
+            <b>Customer:</b> ${user?.name || "-"}<br>
+
+            <b>Email:</b> ${user?.email || "-"}<br>
+
+            <b>Payment Method:</b>
+            ${order.paymentMethod}<br>
+
+            <b>Payment Status:</b>
+            ${order.paymentStatus}<br>
+
+            <b>Order Status:</b>
+            ${order.status}
+          </p>
+
+          <hr>
+
+          <h3>Products Ordered</h3>
+
+          <table
+            width="100%"
+            border="1"
+            cellpadding="10"
+            cellspacing="0"
+            style="border-collapse:collapse;"
+          >
+
+            <thead style="background:#f3f4f6;">
+
+              <tr>
+                <th align="left">Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              ${order.items.map((item) => {
+
+                const price =
+                  item.product?.offerPrice || 0;
+
+                const quantity =
+                  item.quantity || 0;
+
+                const total =
+                  price * quantity;
+
+                return `
+                  <tr>
+
+                    <td>
+                      ${item.product?.name || "-"}
+                    </td>
+
+                    <td align="center">
+                      ${quantity}
+                    </td>
+
+                    <td align="center">
+                      ₹${price}
+                    </td>
+
+                    <td align="center">
+                      ₹${total}
+                    </td>
+
+                  </tr>
+                `;
+
+              }).join("")}
+
+            </tbody>
+
+          </table>
+
+          <div style="
+            margin-top:25px;
+            text-align:right;
+            font-size:18px;
+            font-weight:bold;
+          ">
+
+            Grand Total:
+            ₹${order.amount}
+
+          </div>
+
+          <hr>
+
+          <h3>Shipping Address</h3>
+
+          <p style="line-height:1.8;">
+
+  <b>${address?.fullName || "Customer"}</b><br>
+
+  ${address?.phoneNumber || ""}<br>
+
+  ${address?.area || ""}<br>
+  
+  ${address?.landmark || ""}<br>
+  
+  ${address?.city || ""}, ${address?.state || ""}<br>
+
+  ${address?.pincode || ""}<br>
+
+  Email: ${user?.email || ""}
+
+</p>
+
+          <hr>
+
+          <p>
+            Please log in to the seller dashboard
+            to process this order.
+          </p>
+
+          <p>
+            <b>Juvenis Innovations</b>
+          </p>
+
+        </div>
+
+      </div>
+    `,
+  });
+
+  console.log(
+    "NEW ORDER EMAIL SENT TO SELLER"
+  );
+
+} catch (err) {
+
+  console.error(
+    "Seller Order Email Error:",
+    err
+  );
+
 }
 
 return Response.json({ success: true });

@@ -14,15 +14,22 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sellerId, setSellerId] = useState("")
+  
+const [role, setRole] = useState(null);
+useEffect(() => {
+  const sellerRole = localStorage.getItem("sellerRole");
+  setRole(sellerRole);
+}, []);
 
-    useEffect(() => {
-    // if (!user?._id || !isSeller) return;
-    const id = localStorage.getItem("sellerId")
-    setSellerId(id)
-    if(sellerId) {
-     fetchSellerProducts();
-    }
-  }, [sellerId]);
+
+  //   useEffect(() => {
+  //   // if (!user?._id || !isSeller) return;
+  //   const id = localStorage.getItem("sellerId")
+  //   setSellerId(id)
+  //   if(sellerId) {
+  //    fetchSellerProducts();
+  //   }
+  // }, [sellerId]);
 
  const fetchSellerProducts = async () => {
   try {
@@ -56,7 +63,7 @@ const ProductList = () => {
       <div className="w-full md:p-10 p-4">
         <h2 className="pb-4 text-lg font-medium">All Products</h2>
             {/* Desktop Table */}
-        <div className="hidden sm:flex flex-col items-center max-w-4xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
+        <div className="hidden sm:flex flex-col items-center max-w-5xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
           <table className="table-fixed w-full overflow-hidden">
             <thead className="text-gray-900 text-sm text-left">
               <tr>
@@ -122,7 +129,16 @@ const ProductList = () => {
                     </button>
                   </td>
                   <td>
-                    <button onClick={()=>router.push(`/seller/edit-product/${product._id}`)} className="flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-orange-500 text-white rounded-md">Edit</button>
+                    {role === "admin" && (
+  <button
+    onClick={() =>
+      router.push(`/seller/edit-product/${product._id}`)
+    }
+    className="flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-orange-500 text-white rounded-md"
+  >
+    Edit
+  </button>
+)}
                   </td>
                 </tr>
               ))}

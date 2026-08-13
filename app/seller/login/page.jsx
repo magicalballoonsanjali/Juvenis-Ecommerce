@@ -1,4 +1,5 @@
-'use client';
+"use client";
+
 import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -7,59 +8,132 @@ import { useAppContext } from "../../../context/AppContext";
 
 const SellerLogin = () => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const router = useRouter();
-  const {setUser,setIsSeller}=useAppContext()
+
+  const {
+    setUser,
+    setIsSeller,
+  } = useAppContext();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email) return toast.error("Please enter email");
+    if (!email || !password) {
+      toast.error("Please enter email and password");
+      return;
+    }
 
     try {
-      const { data } = await axios.post("/api/seller/login", { email });
-      // console.log(data)
+      const { data } = await axios.post(
+        "/api/seller/login",
+        {
+          email,
+          password,
+        }
+      );
 
-      if (data.success) {
-        toast.success(data.message);
-        localStorage.setItem("sellerEmail", data.seller.email);
-
-        localStorage.setItem("sellerId", data.seller._id);
-        // localStorage.setItem("isSeller", "true");
-        setUser(data.seller)
-        setIsSeller(true)
-
-        router.push("/seller"); // redirect to seller dashboard
-      } else {
+      if (!data.success) {
         toast.error(data.message);
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      toast.error(err.response?.data?.message || "Login failed");
+
+      toast.success(data.message);
+
+      // Save login information
+      localStorage.setItem(
+        "sellerId",
+        data.seller._id
+      );
+
+      localStorage.setItem(
+        "sellerEmail",
+        data.seller.email
+      );
+
+      localStorage.setItem(
+        "sellerRole",
+        data.seller.role
+      );
+
+      // Save in Context
+      setUser(data.seller);
+      setIsSeller(true);
+
+      // IMPORTANT:
+      // Both admin and seller go to Orders
+      router.push("/seller/orders");
+
+    } catch (error) {
+      console.error(error);
+
+      toast.error(
+        error.response?.data?.message ||
+        "Login failed"
+      );
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+
       <form
         onSubmit={handleLogin}
-        className="bg-white p-8 rounded shadow-md space-y-4 w-full max-w-sm"
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm space-y-5"
       >
-        <h2 className="text-xl font-semibold text-center">Seller Login</h2>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your seller email"
-          className="w-full border border-gray-400 px-3 py-2 rounded"
-          required
-        />
+
+        <h2 className="text-xl font-semibold text-center">
+          Seller Login
+        </h2>
+
+        {/* EMAIL */}
+
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Email
+          </label>
+
+          <input
+            type="email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+            placeholder="Enter email"
+            className="w-full border border-gray-300 px-3 py-2.5 rounded outline-none"
+            required
+          />
+        </div>
+
+        {/* PASSWORD */}
+
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Password
+          </label>
+
+          <input
+            type="password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            placeholder="Enter password"
+            className="w-full border border-gray-300 px-3 py-2.5 rounded outline-none"
+            required
+          />
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-[#1893bf] text-white py-2 rounded font-medium"
+          className="w-full bg-[#1893bf] text-white py-2.5 rounded font-medium"
         >
           Login
         </button>
+
       </form>
+
     </div>
   );
 };
