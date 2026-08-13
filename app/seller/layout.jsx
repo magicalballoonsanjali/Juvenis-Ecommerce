@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Sidebar from "../../components/Seller/Sidebar";
+import Sidebar from "../../components/seller/Sidebar";
 import { useAppContext } from "../../context/AppContext";
 import Navbar from "../../components/seller/Navbar";
 
