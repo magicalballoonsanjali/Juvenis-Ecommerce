@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FileText } from "lucide-react";
 
 const OrderDetails = () => {
   const params = useParams();
@@ -367,43 +368,50 @@ const updateOrderStatus = async (order, e) => {
 
           {/* INVOICE */}
 
-          {isPaid ? (
-
-            <a
-              href={`/api/invoice/${order._id}`}
-              target="_blank"
-              className="
-                inline-block
-                bg-[#4ba078]
-                text-white
-                px-5
-                py-3
-                rounded-full
-                text-sm
-                font-medium
-                text-center
-              "
-            >
-              Download Invoice
-            </a>
-
-          ) : (
-
-            <button
-              disabled
-              className="
-                bg-gray-300
-                text-gray-500
-                px-5
-                py-3
-                rounded-full
-                cursor-not-allowed
-              "
-            >
-              Invoice Not Available
-            </button>
-
-          )}
+             <div>
+         {isPaid ? (
+  <a
+    href={`/api/invoice/${order._id}`}
+    target="_blank"
+    
+    rel="noopener noreferrer"
+    className="
+      inline-flex items-center gap-2
+      bg-gradient-to-r
+      from-green-500
+      to-emerald-600
+      hover:from-green-600
+      hover:to-emerald-700
+      text-white
+      px-4 py-2
+      rounded-xl
+      shadow-md
+      hover:shadow-lg
+      transition-all duration-300
+      text-sm font-medium
+    "
+  >
+    <FileText size={16} />
+    Download Invoice
+  </a>
+) : (
+  <button
+    disabled
+    className="
+      inline-flex items-center gap-2
+      bg-gray-300
+      text-gray-500
+      px-4 py-2
+      rounded-xl
+      cursor-not-allowed
+      text-sm font-medium
+    "
+  >
+    <FileText size={16} />
+   Download Invoice
+  </button>
+)}
+      </div>
 
         </div>
 

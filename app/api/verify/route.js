@@ -210,7 +210,7 @@ try {
 
     from: process.env.EMAIL_USER,
 
-    to: "magicalballoons.anjali@gmail.com",
+    to: "products@juvenisinnovations.in",
 
     subject: `🎉 New Order Received - Order #${order._id}`,
 
@@ -266,7 +266,7 @@ try {
             <b>Customer:</b> ${user?.name || "-"}<br>
 
             <b>Email:</b> ${user?.email || "-"}<br>
-            
+
             <b>Payment Status:</b>
             ${order.paymentStatus}<br>
 
