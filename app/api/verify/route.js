@@ -232,7 +232,7 @@ try {
         ">
 
           <img
-            src="https://res.cloudinary.com/dufk70tw7/image/upload/v1785389928/logo_gpojyu.png"
+            src="https://res.cloudinary.com/dufk70tw7/image/upload/v1786600848/juvenis-logo_vm0ltl.png"
             alt="Juvenis Innovations"
             width="220"
             style="
