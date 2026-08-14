@@ -266,10 +266,7 @@ try {
             <b>Customer:</b> ${user?.name || "-"}<br>
 
             <b>Email:</b> ${user?.email || "-"}<br>
-
-            <b>Payment Method:</b>
-            ${order.paymentMethod}<br>
-
+            
             <b>Payment Status:</b>
             ${order.paymentStatus}<br>
 
